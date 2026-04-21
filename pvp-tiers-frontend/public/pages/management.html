@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Management — PVP Tiers SMP</title>
+  <link rel="stylesheet" href="../css/main.css">
+</head>
+<body>
+<nav class="nav">
+  <a class="nav-logo" href="../../index.html"><img src="../../assets/smp-logo.png" alt="SMP"><span>PVP Tiers SMP</span></a>
+  <div class="nav-links">
+    <a class="nav-link" href="../../index.html">Home</a>
+    <a class="nav-link" href="players.html">Players</a>
+    <a class="nav-link" href="leaderboard.html">Leaderboard</a>
+    <a class="nav-link" href="stats.html">Statistics</a>
+    <a class="nav-link active" href="management.html">Management</a>
+  </div>
+  <div class="nav-right">
+    <button class="theme-toggle" onclick="toggleTheme()">☀</button>
+    <div id="nav-auth"></div>
+  </div>
+</nav>
+
+<!-- Access denied screen -->
+<div id="access-denied" style="display:none;text-align:center;padding:80px 24px;">
+  <div style="font-size:48px;margin-bottom:16px;">🔒</div>
+  <div style="font-size:22px;font-weight:900;margin-bottom:8px;">Access Restricted</div>
+  <div style="color:var(--text2);margin-bottom:24px;">You need a Staff or Admin role to access this page.</div>
+  <a href="${CONFIG.API_BASE}/auth/discord" class="btn discord-btn">Login with Discord</a>
+</div>
+
+<!-- Main management UI -->
+<div id="mgmt-ui" style="display:none;">
+  <div class="container page">
+
+    <!-- Header -->
+    <div class="page-header" style="display:flex;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;gap:12px;">
+      <div>
+        <div class="page-title">Management</div>
+        <div class="page-sub" id="mgmt-sub">Loading...</div>
+      </div>
+      <div style="display:flex;gap:8px;">
+        <button class="btn btn-ghost btn-sm" onclick="openModal('modal-add-player')">+ Add Player</button>
+        <button class="btn btn-primary btn-sm" onclick="openModal('modal-log-fight')">⚔ Log Fight</button>
+      </div>
+    </div>
+
+    <!-- Tabs -->
+    <div style="display:flex;gap:2px;background:var(--bg3);border-radius:var(--r);padding:3px;width:fit-content;border:1px solid var(--border);margin-bottom:24px;">
+      <div class="mgmt-tab active" onclick="showTab('tab-overview')" id="tbtn-overview">Overview</div>
+      <div class="mgmt-tab" onclick="showTab('tab-staff')" id="tbtn-staff" style="display:none">Staff Access</div>
+      <div class="mgmt-tab" onclick="showTab('tab-audit')" id="tbtn-audit">Audit Log</div>
+      <div class="mgmt-tab" onclick="showTab('tab-players')" id="tbtn-players">Players</div>
+    </div>
+
+    <!-- ══ TAB: OVERVIEW ══ -->
+    <div id="tab-overview">
+      <div class="stats-grid stats-grid-4" style="margin-bottom:20px;">
+        <div class="stat-card"><div class="stat-accent" style="background:var(--blue)"></div><div class="stat-label">Total Players</div><div class="stat-val blue" id="o-players">—</div></div>
+        <div class="stat-card"><div class="stat-accent" style="background:var(--green)"></div><div class="stat-label">Fights Logged</div><div class="stat-val green" id="o-fights">—</div></div>
+        <div class="stat-card"><div class="stat-accent" style="background:var(--amber)"></div><div class="stat-label">Active Warns</div><div class="stat-val amber" id="o-warns">—</div></div>
+        <div class="stat-card"><div class="stat-accent" style="background:var(--red)"></div><div class="stat-label">Near Demotion</div><div class="stat-val red" id="o-demotion">—</div><div class="stat-foot">2–3 warns</div></div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:18px;">
+        <div class="card">
+          <div class="card-header"><div class="card-title">Recent Fights</div></div>
+          <div id="o-recent-fights"><div class="empty"><div>No fights yet</div></div></div>
+        </div>
+        <div class="card">
+          <div class="card-header"><div class="card-title">Active Warns</div></div>
+          <div id="o-warns-list"><div class="empty"><div>No warnings</div></div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ TAB: STAFF ACCESS (admin only) ══ -->
+    <div id="tab-staff" style="display:none;">
+      <div class="card" style="margin-bottom:18px;">
+        <div class="card-header">
+          <div class="card-title">Staff & Admin Access</div>
+          <button class="btn btn-primary btn-sm" onclick="openModal('modal-add-staff')">+ Add Member</button>
+        </div>
+        <div id="staff-list"><div class="empty"><div>Loading...</div></div></div>
+      </div>
+    </div>
+
+    <!-- ══ TAB: AUDIT LOG ══ -->
+    <div id="tab-audit" style="display:none;">
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Audit Log</div>
+          <div style="display:flex;gap:8px;align-items:center;">
+            <input class="search-input" id="audit-search" placeholder="Filter..." oninput="filterAudit()" style="width:180px;">
+            <span class="badge b-blue" id="audit-count">0 entries</span>
+          </div>
+        </div>
+        <div id="audit-list"><div class="empty"><div>Loading...</div></div></div>
+      </div>
+    </div>
+
+    <!-- ══ TAB: PLAYERS ══ -->
+    <div id="tab-players" style="display:none;">
+      <div style="margin-bottom:14px;display:flex;gap:8px;flex-wrap:wrap;">
+        <input class="search-input" id="p-search" placeholder="Search IGN..." oninput="filterMgmtPlayers()">
+        <select class="form-select" style="width:130px" id="p-tier" onchange="filterMgmtPlayers()">
+          <option value="">All tiers</option>
+          <option>HT1</option><option>LT1</option><option>HT2</option><option>LT2</option>
+          <option>HT3</option><option>LT3</option><option>Retired</option>
+        </select>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr>
+            <th>Player</th><th>Tier</th><th>Warns</th><th>Defenses</th><th>Days</th><th>Points</th><th>W/L</th><th></th>
+          </tr></thead>
+          <tbody id="mgmt-players-tbody"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ MODALS ══ -->
+
+<!-- Add Player -->
+<div class="modal-bg" id="modal-add-player">
+  <div class="modal">
+    <div class="modal-title">Add Player</div>
+    <div class="form-group"><label class="form-label">Minecraft IGN</label><input class="form-input" id="ap-ign" placeholder="ExactIngameUsername"></div>
+    <div class="form-group"><label class="form-label">Discord ID</label><input class="form-input" id="ap-discord" placeholder="123456789012345678"></div>
+    <div class="form-group"><label class="form-label">Discord Name</label><input class="form-input" id="ap-dname" placeholder="Username"></div>
+    <div class="form-group"><label class="form-label">Starting Tier</label>
+      <select class="form-select" id="ap-tier">
+        <option value="None">None</option><option value="LT3">LT3</option><option value="HT3">HT3</option>
+        <option value="LT2">LT2</option><option value="HT2">HT2</option>
+        <option value="LT1">LT1</option><option value="HT1">HT1</option>
+      </select>
+    </div>
+    <div id="ap-msg"></div>
+    <div class="modal-actions">
+      <button class="btn btn-ghost" onclick="closeModal('modal-add-player')">Cancel</button>
+      <button class="btn btn-primary" onclick="addPlayer()">Add Player</button>
+    </div>
+  </div>
+</div>
+
+<!-- Log Fight -->
+<div class="modal-bg" id="modal-log-fight">
+  <div class="modal">
+    <div class="modal-title">Log Fight</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+      <div class="form-group"><label class="form-label">Player 1 IGN</label><input class="form-input" id="lf-ign1" placeholder="IGN"></div>
+      <div class="form-group"><label class="form-label">Player 1 Score</label><input class="form-input" id="lf-s1" type="number" min="0" max="4" placeholder="0–4"></div>
+      <div class="form-group"><label class="form-label">Player 2 IGN</label><input class="form-input" id="lf-ign2" placeholder="IGN"></div>
+      <div class="form-group"><label class="form-label">Player 2 Score</label><input class="form-input" id="lf-s2" type="number" min="0" max="4" placeholder="0–4"></div>
+    </div>
+    <div class="form-group"><label class="form-label">Fight Type</label>
+      <select class="form-select" id="lf-type">
+        <option value="standard">Standard (T2)</option>
+        <option value="ht3">HT3 test</option>
+      </select>
+    </div>
+    <div class="form-group"><label class="form-label">Category</label>
+      <select class="form-select" id="lf-cat">
+        <option value="higher-vs-lower">Higher vs Lower tier</option>
+        <option value="same-tier">Same tier</option>
+      </select>
+    </div>
+    <div class="form-group"><label class="form-label">Result</label>
+      <select class="form-select" id="lf-pass">
+        <option value="true">Challenger Passed ✓</option>
+        <option value="false">Challenger Failed ✗</option>
+      </select>
+    </div>
+    <div id="lf-msg"></div>
+    <div class="modal-actions">
+      <button class="btn btn-ghost" onclick="closeModal('modal-log-fight')">Cancel</button>
+      <button class="btn btn-primary" onclick="logFight()">Log Fight</button>
+    </div>
+  </div>
+</div>
+
+<!-- Add Staff (admin only) -->
+<div class="modal-bg" id="modal-add-staff">
+  <div class="modal">
+    <div class="modal-title">Add Staff Member</div>
+    <div class="alert alert-blue">This person will have access after their next Discord login.</div>
+    <div class="form-group"><label class="form-label">Discord ID</label><input class="form-input" id="as-id" placeholder="18-digit Discord ID"></div>
+    <div class="form-group"><label class="form-label">Display Name</label><input class="form-input" id="as-name" placeholder="Their Discord name"></div>
+    <div class="form-group"><label class="form-label">Role</label>
+      <select class="form-select" id="as-role">
+        <option value="staff">Staff — can add players + log fights</option>
+        <option value="admin">Admin — full access</option>
+      </select>
+    </div>
+    <div id="as-msg"></div>
+    <div class="modal-actions">
+      <button class="btn btn-ghost" onclick="closeModal('modal-add-staff')">Cancel</button>
+      <button class="btn btn-primary" onclick="addStaff()">Grant Access</button>
+    </div>
+  </div>
+</div>
+
+<!-- Edit Player (admin only) -->
+<div class="modal-bg" id="modal-edit-player">
+  <div class="modal">
+    <div class="modal-title" id="ep-title">Edit Player</div>
+    <input type="hidden" id="ep-id">
+    <div class="form-group"><label class="form-label">Tier</label>
+      <select class="form-select" id="ep-tier">
+        <option>None</option><option>LT3</option><option>HT3</option>
+        <option>LT2</option><option>HT2</option><option>LT1</option><option>HT1</option><option>Retired</option>
+      </select>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+      <div class="form-group"><label class="form-label">Warns (0–3)</label><input class="form-input" id="ep-warns" type="number" min="0" max="3"></div>
+      <div class="form-group"><label class="form-label">HT3 Points</label><input class="form-input" id="ep-points" type="number" min="0"></div>
+    </div>
+    <div class="form-group"><label class="form-label">Reason (optional)</label><input class="form-input" id="ep-reason" placeholder="Why this change..."></div>
+    <div class="form-group" style="display:flex;align-items:center;gap:10px;">
+      <input type="checkbox" id="ep-paused" style="width:16px;height:16px;">
+      <label for="ep-paused" style="font-size:13px;cursor:pointer;">Cooldown paused (LOA)</label>
+    </div>
+    <div id="ep-msg"></div>
+    <div class="modal-actions">
+      <button class="btn btn-danger btn-sm" onclick="deletePlayer()">Delete Player</button>
+      <button class="btn btn-ghost" onclick="closeModal('modal-edit-player')">Cancel</button>
+      <button class="btn btn-primary" onclick="savePlayer()">Save Changes</button>
+    </div>
+  </div>
+</div>
+
+<style>
+.mgmt-tab { padding: 7px 16px; border-radius: 6px; font-size: 13px; font-weight: 700; cursor: pointer; color: var(--text2); transition: all 0.12s; }
+.mgmt-tab.active { background: var(--bg2); color: var(--text); border: 1px solid var(--border2); box-shadow: 0 1px 3px rgba(17,24,39,0.07); }
+.mgmt-tab:hover:not(.active) { color: var(--text); background: rgba(255,255,255,0.06); }
+</style>
+
+<script src="../js/config.js"></script>
+<script>
+if (localStorage.getItem('pvp-dark') === '1') document.documentElement.classList.add('dark');
+function toggleTheme() { const d = document.documentElement.classList.toggle('dark'); localStorage.setItem('pvp-dark', d ? '1' : '0'); }
+handleAuthCallback();
+
+let auditEntries = [];
+let mgmtPlayers = [];
+let currentEditId = null;
+
+function init() {
+  const user = Auth.getUser();
+  document.getElementById('nav-auth').innerHTML = user
+    ? `<div class="nav-user"><img src="${avatarUrl(user.discordId, user.avatar)}" alt=""><span>${user.discordName}</span><span class="role-badge ${user.role}">${user.role}</span></div><button class="btn btn-ghost btn-sm" onclick="Auth.clear();location.reload()">Logout</button>`
+    : `<a href="${CONFIG.API_BASE}/auth/discord" class="btn discord-btn btn-sm">Login</a>`;
+
+  if (!Auth.isStaff()) {
+    document.getElementById('access-denied').style.display = 'block';
+    document.getElementById('access-denied').querySelector('a').href = CONFIG.API_BASE + '/auth/discord';
+    return;
+  }
+
+  document.getElementById('mgmt-ui').style.display = 'block';
+  document.getElementById('mgmt-sub').textContent = `Logged in as ${user.discordName} · ${user.role}`;
+
+  if (Auth.isAdmin()) {
+    document.getElementById('tbtn-staff').style.display = '';
+  }
+
+  loadOverview();
+  loadAudit();
+  loadMgmtPlayers();
+  if (Auth.isAdmin()) loadStaff();
+}
+
+// ══ TABS ══
+function showTab(id) {
+  ['tab-overview','tab-staff','tab-audit','tab-players'].forEach(t => {
+    document.getElementById(t).style.display = 'none';
+    const btn = document.getElementById('tbtn-' + t.replace('tab-',''));
+    if (btn) btn.classList.remove('active');
+  });
+  document.getElementById(id).style.display = '';
+  document.getElementById('tbtn-' + id.replace('tab-','')).classList.add('active');
+}
+
+// ══ MODALS ══
+function openModal(id) { document.getElementById(id).classList.add('open'); }
+function closeModal(id) { document.getElementById(id).classList.remove('open'); }
+document.querySelectorAll('.modal-bg').forEach(m => m.addEventListener('click', e => { if (e.target === m) m.classList.remove('open'); }));
+
+function showMsg(id, text, type = 'blue') {
+  document.getElementById(id).innerHTML = `<div class="alert alert-${type}" style="margin-top:10px;">${text}</div>`;
+}
+
+// ══ OVERVIEW ══
+async function loadOverview() {
+  const [stats, fights] = await Promise.all([
+    api('/api/public/stats'),
+    api('/api/public/leaderboard?sort=wins&limit=10')
+  ]);
+  document.getElementById('o-players').textContent = stats.totalPlayers || 0;
+  document.getElementById('o-fights').textContent = stats.totalFights || 0;
+
+  // Warns from players list
+  if (mgmtPlayers.length) {
+    const warns = mgmtPlayers.reduce((s, p) => s + (p.warns || 0), 0);
+    const demotion = mgmtPlayers.filter(p => p.warns >= 2).length;
+    document.getElementById('o-warns').textContent = warns;
+    document.getElementById('o-demotion').textContent = demotion;
+  }
+
+  // Recent audit entries as "recent fights"
+  document.getElementById('o-recent-fights').innerHTML = auditEntries
+    .filter(e => e.action === 'FIGHT_LOGGED')
+    .slice(0, 6)
+    .map(e => `<div style="display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid var(--border);font-size:13px;">
+      <span style="font-weight:700;">${e.target_ign}</span>
+      <span class="mono">${timeAgo(e.created_at)}</span>
+    </div>`).join('') || '<div class="empty" style="padding:16px 0"><div>No fights yet</div></div>';
+
+  const warnedPlayers = mgmtPlayers.filter(p => p.warns > 0).sort((a,b) => b.warns - a.warns).slice(0, 6);
+  document.getElementById('o-warns-list').innerHTML = warnedPlayers.map(p => `
+    <div style="display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+      <span style="flex:1;font-weight:700;">${p.ign}</span>
+      ${tierBadge(p.tier)}
+      <span class="badge ${p.warns >= 3 ? 'b-red' : p.warns >= 2 ? 'b-amber' : 'b-blue'}">${p.warns}/3 warns</span>
+    </div>
+  `).join('') || '<div class="empty" style="padding:16px 0"><div>No warnings</div></div>';
+}
+
+// ══ STAFF ACCESS ══
+async function loadStaff() {
+  const data = await api('/auth/users');
+  const users = data.users || [];
+  document.getElementById('staff-list').innerHTML = users.map(u => `
+    <div style="display:flex;align-items:center;gap:14px;padding:12px 0;border-bottom:1px solid var(--border);">
+      <img src="${avatarUrl(u.discord_id, u.discord_avatar, 48)}" style="width:42px;height:42px;border-radius:50%;border:2px solid var(--border2);" onerror="this.src='https://cdn.discordapp.com/embed/avatars/0.png'">
+      <div style="flex:1;">
+        <div style="font-weight:700;">${u.discord_name}</div>
+        <div class="mono">${u.discord_id}</div>
+        <div style="font-size:11px;color:var(--text3);margin-top:2px;">Added by ${u.added_by || 'system'} · Last login: ${u.last_login ? timeAgo(u.last_login) : 'never'}</div>
+      </div>
+      <span class="role-badge ${u.role}" style="font-size:12px;padding:4px 10px;">${u.role}</span>
+      ${u.discord_id !== Auth.getUser()?.discordId ? `
+      <button class="btn btn-danger btn-xs" onclick="removeStaff('${u.discord_id}','${u.discord_name}')">Remove</button>` : '<span class="badge b-gray">You</span>'}
+    </div>
+  `).join('') || '<div class="empty"><div>No staff members yet</div></div>';
+}
+
+async function addStaff() {
+  const discordId = document.getElementById('as-id').value.trim();
+  const discordName = document.getElementById('as-name').value.trim();
+  const role = document.getElementById('as-role').value;
+  if (!discordId || !discordName) return showMsg('as-msg', 'Discord ID and name required.', 'red');
+
+  const res = await api('/auth/users', { method: 'POST', body: { discordId, discordName, role } });
+  if (res.error) return showMsg('as-msg', res.error, 'red');
+  showMsg('as-msg', `${discordName} added as ${role}!`, 'green');
+  setTimeout(() => { closeModal('modal-add-staff'); loadStaff(); }, 1200);
+}
+
+async function removeStaff(discordId, name) {
+  if (!confirm(`Remove ${name}'s access?`)) return;
+  const res = await api(`/auth/users/${discordId}`, { method: 'DELETE' });
+  if (res.ok) loadStaff();
+}
+
+// ══ AUDIT LOG ══
+async function loadAudit() {
+  const data = await api('/auth/audit');
+  auditEntries = data.entries || [];
+  filterAudit();
+  loadOverview();
+}
+
+function filterAudit() {
+  const q = (document.getElementById('audit-search')?.value || '').toLowerCase();
+  const filtered = auditEntries.filter(e =>
+    !q || (e.action + e.target_ign + e.actor_ign + JSON.stringify(e.new_value)).toLowerCase().includes(q)
+  );
+  document.getElementById('audit-count').textContent = `${filtered.length} entries`;
+  document.getElementById('audit-list').innerHTML = filtered.slice(0, 100).map(e => `
+    <div style="display:flex;gap:14px;padding:10px 0;border-bottom:1px solid var(--border);align-items:flex-start;">
+      <span class="mono" style="min-width:130px;white-space:nowrap;">${new Date(e.created_at).toLocaleString('en-GB',{day:'2-digit',month:'short',hour:'2-digit',minute:'2-digit'})}</span>
+      <div style="width:6px;height:6px;border-radius:50%;background:var(--blue);margin-top:6px;flex-shrink:0;"></div>
+      <div style="flex:1;">
+        <span style="font-weight:700;font-size:12px;">${e.action}</span>
+        ${e.target_ign ? `<span style="color:var(--text2);font-size:12px;"> → ${e.target_ign}</span>` : ''}
+        ${e.actor_ign ? `<span style="color:var(--text3);font-size:11px;"> by ${e.actor_ign}</span>` : ''}
+        ${e.reason ? `<div style="font-size:11px;color:var(--text3);margin-top:2px;">Reason: ${e.reason}</div>` : ''}
+        ${e.new_value ? `<div style="font-size:11px;color:var(--text3);font-family:'DM Mono',monospace;">${JSON.stringify(e.new_value)}</div>` : ''}
+      </div>
+    </div>
+  `).join('') || '<div class="empty" style="padding:24px 0"><div>No log entries</div></div>';
+}
+
+// ══ PLAYERS TAB ══
+async function loadMgmtPlayers() {
+  const data = await api('/api/private/players', { headers: { Authorization: `Bearer ${CONFIG.BOT_KEY || ''}` } });
+  // If private endpoint not accessible from frontend, fall back to public leaderboard
+  if (data.error) {
+    const lb = await api('/api/public/leaderboard?sort=winrate&limit=50');
+    mgmtPlayers = lb.players || [];
+  } else {
+    mgmtPlayers = data.players || [];
+  }
+  filterMgmtPlayers();
+  loadOverview();
+}
+
+function filterMgmtPlayers() {
+  const q = (document.getElementById('p-search')?.value || '').toLowerCase();
+  const tier = document.getElementById('p-tier')?.value || '';
+  const filtered = mgmtPlayers.filter(p =>
+    (!q || p.ign.toLowerCase().includes(q)) && (!tier || p.tier === tier)
+  );
+  document.getElementById('mgmt-players-tbody').innerHTML = filtered.map(p => `
+    <tr>
+      <td><div style="display:flex;align-items:center;gap:8px;">
+        <img src="${p.skinUrl || p.skin_url || 'https://mc-heads.net/avatar/steve/28'}" class="skin-img" style="width:28px;height:28px;" onerror="this.src='https://mc-heads.net/avatar/steve/28'">
+        <a href="player.html?ign=${p.ign}" style="font-weight:700;color:var(--text);text-decoration:none;">${p.ign}</a>
+      </div></td>
+      <td>${tierBadge(p.tier || 'None')}</td>
+      <td><span class="badge ${(p.warns||0)>=3?'b-red':(p.warns||0)>=2?'b-amber':'b-gray'}">${p.warns||0}/3</span></td>
+      <td>${p.defenses||0}/2</td>
+      <td class="mono">${p.days_held||p.daysHeld||0}d</td>
+      <td class="mono" style="color:var(--blue)">${p.points||0}</td>
+      <td><span style="color:var(--green)">${p.wins||0}W</span>/<span style="color:var(--red)">${p.losses||0}L</span></td>
+      <td>${Auth.isAdmin() ? `<button class="btn btn-ghost btn-xs" onclick="openEdit('${p.id||''}','${p.ign}',${p.warns||0},${p.points||0},'${p.tier||'None'}',${!!p.cooldown_paused||!!p.cooldownPaused})">Edit</button>` : ''}</td>
+    </tr>
+  `).join('') || '<tr><td colspan="8"><div class="empty">No players found</div></td></tr>';
+}
+
+function openEdit(id, ign, warns, points, tier, paused) {
+  currentEditId = id;
+  document.getElementById('ep-title').textContent = `Edit — ${ign}`;
+  document.getElementById('ep-id').value = id;
+  document.getElementById('ep-tier').value = tier;
+  document.getElementById('ep-warns').value = warns;
+  document.getElementById('ep-points').value = points;
+  document.getElementById('ep-paused').checked = paused;
+  document.getElementById('ep-msg').innerHTML = '';
+  openModal('modal-edit-player');
+}
+
+async function savePlayer() {
+  const id = document.getElementById('ep-id').value;
+  const tier = document.getElementById('ep-tier').value;
+  const warns = parseInt(document.getElementById('ep-warns').value);
+  const points = parseInt(document.getElementById('ep-points').value);
+  const paused = document.getElementById('ep-paused').checked;
+  const reason = document.getElementById('ep-reason').value.trim();
+
+  await Promise.all([
+    api(`/api/staff/players/${id}/tier`, { method: 'PATCH', body: { tier, reason } }),
+    api(`/api/staff/players/${id}/warns`, { method: 'PATCH', body: { warns, reason } }),
+    api(`/api/staff/players/${id}/points`, { method: 'PATCH', body: { points, reason } }),
+    api(`/api/staff/players/${id}/cooldown`, { method: 'PATCH', body: { paused, reason } }),
+  ]);
+
+  showMsg('ep-msg', 'Saved!', 'green');
+  setTimeout(() => { closeModal('modal-edit-player'); loadMgmtPlayers(); loadAudit(); }, 1000);
+}
+
+async function deletePlayer() {
+  const id = document.getElementById('ep-id').value;
+  const ign = document.getElementById('ep-title').textContent.replace('Edit — ', '');
+  if (!confirm(`Permanently delete ${ign}? This cannot be undone.`)) return;
+  const res = await api(`/api/staff/players/${id}`, { method: 'DELETE' });
+  if (res.ok) { closeModal('modal-edit-player'); loadMgmtPlayers(); loadAudit(); }
+  else showMsg('ep-msg', res.error || 'Error deleting player.', 'red');
+}
+
+// ══ ADD PLAYER ══
+async function addPlayer() {
+  const ign = document.getElementById('ap-ign').value.trim();
+  const discordId = document.getElementById('ap-discord').value.trim();
+  const discordName = document.getElementById('ap-dname').value.trim();
+  const tier = document.getElementById('ap-tier').value;
+  if (!ign || !discordId || !discordName) return showMsg('ap-msg', 'All fields required.', 'red');
+
+  showMsg('ap-msg', 'Looking up Minecraft profile...', 'blue');
+  const res = await api('/api/staff/players', { method: 'POST', body: { ign, discordId, discordName, tier } });
+  if (res.error) return showMsg('ap-msg', res.error, 'red');
+  showMsg('ap-msg', `${res.ign} added successfully!`, 'green');
+  setTimeout(() => { closeModal('modal-add-player'); loadMgmtPlayers(); loadAudit(); }, 1200);
+}
+
+// ══ LOG FIGHT ══
+async function logFight() {
+  const ign1 = document.getElementById('lf-ign1').value.trim();
+  const ign2 = document.getElementById('lf-ign2').value.trim();
+  const score1 = parseInt(document.getElementById('lf-s1').value);
+  const score2 = parseInt(document.getElementById('lf-s2').value);
+  const type = document.getElementById('lf-type').value;
+  const category = document.getElementById('lf-cat').value;
+  const pass = document.getElementById('lf-pass').value === 'true';
+
+  if (!ign1 || !ign2 || isNaN(score1) || isNaN(score2))
+    return showMsg('lf-msg', 'All fields required.', 'red');
+
+  const res = await api('/api/staff/fights', { method: 'POST', body: { ign1, score1, ign2, score2, pass, type, category } });
+  if (res.error) return showMsg('lf-msg', res.error, 'red');
+
+  const warnInfo = Object.entries(res.fight?.warnChanges || {}).map(([k,v]) => `${k}: ${v>0?'+':''}${v}`).join(', ');
+  showMsg('lf-msg', `Fight logged! ${warnInfo ? 'Warn changes: ' + warnInfo : ''}`, 'green');
+  setTimeout(() => { closeModal('modal-log-fight'); loadMgmtPlayers(); loadAudit(); }, 1400);
+}
+
+init();
+</script>
+</body>
+</html>

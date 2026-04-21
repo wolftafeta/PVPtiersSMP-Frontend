@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Statistics — PVP Tiers SMP</title>
+  <link rel="stylesheet" href="../css/main.css">
+</head>
+<body>
+<nav class="nav">
+  <a class="nav-logo" href="../../index.html"><img src="../../assets/smp-logo.png" alt="SMP"><span>PVP Tiers SMP</span></a>
+  <div class="nav-links">
+    <a class="nav-link" href="../../index.html">Home</a>
+    <a class="nav-link" href="players.html">Players</a>
+    <a class="nav-link" href="leaderboard.html">Leaderboard</a>
+    <a class="nav-link active" href="stats.html">Statistics</a>
+    <span id="nav-management" style="display:none"><a class="nav-link" href="management.html">Management</a></span>
+  </div>
+  <div class="nav-right">
+    <button class="theme-toggle" onclick="toggleTheme()">☀</button>
+    <div id="nav-auth"></div>
+  </div>
+</nav>
+
+<div class="container page">
+  <!-- SMP Info Banner -->
+  <div style="border-radius:var(--r3);overflow:hidden;position:relative;margin-bottom:32px;border:1px solid var(--border2);">
+    <img src="../../assets/banner.webp" style="width:100%;height:160px;object-fit:cover;display:block;" onerror="this.style.display='none'">
+    <div style="position:absolute;inset:0;background:linear-gradient(120deg,rgba(29,95,184,0.88),rgba(29,95,184,0.3))"></div>
+    <div style="position:absolute;left:28px;top:50%;transform:translateY(-50%);color:#fff;">
+      <h2 style="font-size:22px;font-weight:900;margin-bottom:4px;">PVP Tiers SMP</h2>
+      <p style="font-size:13px;opacity:0.88;max-width:480px;line-height:1.5;">
+        A competitive Minecraft SMP with a structured tier system — from LT3 all the way to HT1. 
+        Fight your way up, defend your spot, earn peak tier status, and retire with honour.
+      </p>
+      <a href="https://discord.gg/your-invite" target="_blank" class="btn discord-btn btn-sm" style="margin-top:12px;">Join Discord</a>
+    </div>
+  </div>
+
+  <!-- Stat cards row 1 -->
+  <div class="stats-grid stats-grid-4" style="margin-bottom:16px;">
+    <div class="stat-card">
+      <div class="stat-accent" style="background:var(--blue)"></div>
+      <div class="stat-label">Total Players</div>
+      <div class="stat-val blue" id="s-total">—</div>
+      <div class="stat-foot">Registered all time</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-accent" style="background:var(--green)"></div>
+      <div class="stat-label">Fights Logged</div>
+      <div class="stat-val green" id="s-fights">—</div>
+      <div class="stat-foot">All time</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-accent" style="background:var(--amber)"></div>
+      <div class="stat-label">Active LT2+</div>
+      <div class="stat-val amber" id="s-lt2">—</div>
+      <div class="stat-foot">In T2 system</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-accent" style="background:var(--purple)"></div>
+      <div class="stat-label">Active HT3</div>
+      <div class="stat-val" style="color:var(--purple)" id="s-ht3">—</div>
+      <div class="stat-foot">Testers active</div>
+    </div>
+  </div>
+
+  <!-- Stat cards row 2 -->
+  <div class="stats-grid stats-grid-3" style="margin-bottom:32px;">
+    <div class="stat-card">
+      <div class="stat-accent" style="background:var(--teal)"></div>
+      <div class="stat-label">Top Winrate</div>
+      <div class="stat-val" style="color:var(--teal);font-size:24px;" id="s-topwr">—</div>
+      <div class="stat-foot" id="s-topwr-ign">—</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-accent" style="background:var(--red)"></div>
+      <div class="stat-label">Most Fights</div>
+      <div class="stat-val red" style="font-size:24px;" id="s-mostfights">—</div>
+      <div class="stat-foot" id="s-mostfights-ign">—</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-accent" style="background:var(--gray,#888)"></div>
+      <div class="stat-label">Retired Players</div>
+      <div class="stat-val" id="s-retired">—</div>
+      <div class="stat-foot">Hall of fame</div>
+    </div>
+  </div>
+
+  <!-- Leaderboards side by side -->
+  <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:18px;margin-bottom:18px;">
+
+    <!-- Top 5 Winrate -->
+    <div class="card">
+      <div class="card-header"><div class="card-title">Top Winrate</div></div>
+      <div id="lb-winrate"><div class="empty" style="padding:20px 0"><div>Loading...</div></div></div>
+    </div>
+
+    <!-- Top 5 Wins -->
+    <div class="card">
+      <div class="card-header"><div class="card-title">Most Wins</div></div>
+      <div id="lb-wins"><div class="empty" style="padding:20px 0"><div>Loading...</div></div></div>
+    </div>
+
+    <!-- Top 5 HT3 Points -->
+    <div class="card">
+      <div class="card-header"><div class="card-title">HT3 Points</div></div>
+      <div id="lb-points"><div class="empty" style="padding:20px 0"><div>Loading...</div></div></div>
+    </div>
+  </div>
+
+  <!-- Retirement eligible -->
+  <div class="card">
+    <div class="card-header">
+      <div class="card-title">Retirement Eligible</div>
+      <span class="badge b-teal">Peak tier met</span>
+    </div>
+    <div id="retirement-list"></div>
+  </div>
+</div>
+
+<script src="../js/config.js"></script>
+<script>
+if (localStorage.getItem('pvp-dark') === '1') document.documentElement.classList.add('dark');
+function toggleTheme() { const d = document.documentElement.classList.toggle('dark'); localStorage.setItem('pvp-dark', d ? '1' : '0'); }
+handleAuthCallback();
+
+function renderNav() {
+  const user = Auth.getUser();
+  document.getElementById('nav-auth').innerHTML = user
+    ? `<div class="nav-user"><img src="${avatarUrl(user.discordId, user.avatar)}" alt=""><span>${user.discordName}</span><span class="role-badge ${user.role}">${user.role}</span></div><button class="btn btn-ghost btn-sm" onclick="Auth.clear();location.reload()">Logout</button>`
+    : `<a href="${CONFIG.API_BASE}/auth/discord" class="btn discord-btn btn-sm">Login</a>`;
+  if (Auth.isStaff()) document.getElementById('nav-management').style.display = '';
+}
+renderNav();
+
+function animateCounter(el, target, formatter) {
+  if (!el || target == null) return;
+  const dur = 900, step = 16;
+  let cur = 0;
+  const inc = target / (dur / step);
+  const timer = setInterval(() => {
+    cur = Math.min(cur + inc, target);
+    el.textContent = formatter ? formatter(cur) : Math.floor(cur).toLocaleString();
+    if (cur >= target) clearInterval(timer);
+  }, step);
+}
+
+function miniLeaderboard(players, valueKey, formatter) {
+  if (!players?.length) return '<div class="empty" style="padding:16px 0">No data</div>';
+  return players.map((p, i) => `
+    <div style="display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);cursor:pointer;" onclick="location.href='player.html?ign=${p.ign}'">
+      <span style="font-family:'DM Mono',monospace;font-size:11px;color:${i===0?'var(--amber)':'var(--text3)'};font-weight:700;width:18px;">#${i+1}</span>
+      <img src="${p.skinUrl || 'https://mc-heads.net/avatar/steve/28'}" class="skin-img" style="width:28px;height:28px;" onerror="this.src='https://mc-heads.net/avatar/steve/28'">
+      <span style="flex:1;font-weight:700;font-size:13px;">${p.ign}</span>
+      <span style="font-family:'DM Mono',monospace;font-weight:700;color:var(--blue);font-size:12px;">${formatter(p.value)}</span>
+    </div>
+  `).join('');
+}
+
+async function loadAll() {
+  const [stats, lbWr, lbWins, lbPts, retirement] = await Promise.all([
+    api('/api/public/stats'),
+    api('/api/public/leaderboard?sort=winrate&limit=5'),
+    api('/api/public/leaderboard?sort=wins&limit=5'),
+    api('/api/public/leaderboard?sort=points&limit=5'),
+    api('/api/public/retirement')
+  ]);
+
+  // Animate counters
+  animateCounter(document.getElementById('s-total'), stats.totalPlayers);
+  animateCounter(document.getElementById('s-fights'), stats.totalFights);
+  animateCounter(document.getElementById('s-lt2'), stats.activeLT2);
+  animateCounter(document.getElementById('s-ht3'), stats.activeHT3);
+  animateCounter(document.getElementById('s-retired'), stats.retirementCount);
+
+  if (stats.highestWinrate) {
+    animateCounter(document.getElementById('s-topwr'), stats.highestWinrate.winrate, v => (v * 100).toFixed(1) + '%');
+    document.getElementById('s-topwr-ign').textContent = stats.highestWinrate.ign;
+  }
+  if (stats.mostFights) {
+    animateCounter(document.getElementById('s-mostfights'), stats.mostFights.total);
+    document.getElementById('s-mostfights-ign').textContent = stats.mostFights.ign;
+  }
+
+  // Mini leaderboards
+  document.getElementById('lb-winrate').innerHTML = miniLeaderboard(lbWr.players, 'value', v => formatWinrate(v));
+  document.getElementById('lb-wins').innerHTML = miniLeaderboard(lbWins.players, 'value', v => Math.floor(v) + ' W');
+  document.getElementById('lb-points').innerHTML = miniLeaderboard(lbPts.players, 'value', v => Math.floor(v) + ' pts');
+
+  // Retirement list
+  const ret = retirement.players || [];
+  document.getElementById('retirement-list').innerHTML = ret.length
+    ? ret.map(p => `
+      <div style="display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid var(--border);cursor:pointer;" onclick="location.href='player.html?ign=${p.ign}'">
+        <span style="font-weight:700;">${p.ign}</span>
+        ${tierBadge(p.tier)}
+        <span class="badge b-blue">${p.defenses}/2 🛡</span>
+        <span class="mono">${p.daysHeld}d held</span>
+      </div>
+    `).join('')
+    : '<div class="empty" style="padding:20px 0"><div>No players currently eligible</div></div>';
+}
+
+loadAll();
+</script>
+</body>
+</html>
