@@ -1,0 +1,750 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Management — PVP Tiers SMP</title>
+<link rel="stylesheet" href="../css/main.css">
+<link rel="icon" href="../../assets/SMP_Main_logo.webp">
+</head>
+<body>
+<div class="app-shell">
+<aside class="sidebar" id="sidebar">
+  <a class="sb-logo" href="../../index.html"><img src="../../assets/SMP_Main_logo.webp" alt="SMP" onerror="this.style.background='#1d3a6e'"><div><div class="sb-logo-text">PVP Tiers SMP</div><div class="sb-logo-sub">PvPTiers Network</div></div></a>
+  <div class="sb-section">Overview</div>
+  <a class="sb-item" href="../../index.html"><div class="sb-icon"><svg width="13" height="13" viewBox="0 0 15 15" fill="none" stroke="currentColor" stroke-width="1.4"><rect x="1.5" y="1.5" width="5" height="5" rx="1"/><rect x="8.5" y="1.5" width="5" height="5" rx="1"/><rect x="1.5" y="8.5" width="5" height="5" rx="1"/><rect x="8.5" y="8.5" width="5" height="5" rx="1"/></svg></div>Dashboard</a>
+  <a class="sb-item" href="stats.html"><div class="sb-icon"><svg width="13" height="13" viewBox="0 0 15 15" fill="none"><rect x="1" y="9" width="3" height="5" rx=".8" fill="currentColor" opacity=".4"/><rect x="6" y="6" width="3" height="8" rx=".8" fill="currentColor" opacity=".7"/><rect x="11" y="2" width="3" height="12" rx=".8" fill="currentColor"/></svg></div>Statistics</a>
+  <div class="sb-section">Players</div>
+  <a class="sb-item" href="players.html"><div class="sb-icon"><svg width="13" height="13" viewBox="0 0 15 15" fill="none" stroke="currentColor" stroke-width="1.3"><circle cx="5" cy="4" r="2"/><circle cx="10" cy="4" r="2"/><path d="M1 13c0-2.2 1.8-4 4-4s4 1.8 4 4" stroke-linecap="round"/><path d="M10 9.5c.3-.1.65-.2 1-.2 2 0 3.5 1.4 3.5 3.5" stroke-linecap="round"/></svg></div>All Players</a>
+  <a class="sb-item" href="halloffame.html"><div class="sb-icon"><img src="../../assets/thropie_blue.webp" style="width:15px;height:15px;object-fit:contain;opacity:.65"></div>Hall of Fame</a>
+  <a class="sb-item" href="leaderboard.html"><div class="sb-icon"><svg width="13" height="13" viewBox="0 0 15 15" fill="none"><path d="M7.5 1.5l1.4 2.9 3.2.5-2.3 2.2.5 3.2-2.8-1.5-2.8 1.5.5-3.2-2.3-2.2 3.2-.5z" fill="currentColor"/></svg></div>Leaderboard</a>
+  <div class="sb-section">Tiers</div>
+  <a class="sb-item" href="ht3-players.html"><div class="sb-icon"><img src="../../assets/lt3-ht3.webp" style="width:15px;height:15px;object-fit:contain;opacity:.65"></div>HT3 Players</a>
+  <a class="sb-item" href="ht3-players.html#fights"><div class="sb-icon"><svg width="13" height="13" viewBox="0 0 15 15" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"><path d="M1.5 1.5l3.5 3.5M13.5 13.5l-3.5-3.5M1.5 13.5l3.5-3.5M13.5 1.5l-3.5 3.5"/><circle cx="7.5" cy="7.5" r="1.5" fill="currentColor" stroke="none"/></svg></div>HT3 Fights</a>
+  <a class="sb-item" href="points-shop.html"><div class="sb-icon"><img src="../../assets/Points_logo.webp" style="width:15px;height:15px;object-fit:contain;opacity:.65"></div>Points Shop</a>
+  <a class="sb-item" href="t2-players.html"><div class="sb-icon"><img src="../../assets/Lt2-ht2.webp" style="width:15px;height:15px;object-fit:contain;opacity:.65"></div>T2+ Players</a>
+  <a class="sb-item" href="t2-players.html#warns"><div class="sb-icon"><svg width="13" height="13" viewBox="0 0 15 15" fill="none" stroke="currentColor" stroke-width="1.3"><path d="M7.5 1.5L13.5 12.5H1.5L7.5 1.5Z" stroke-linejoin="round"/><path d="M7.5 6v3" stroke-linecap="round"/><circle cx="7.5" cy="10.5" r=".65" fill="currentColor" stroke="none"/></svg></div>Warns</a>
+  <a class="sb-item" href="halloffame.html#retired"><div class="sb-icon"><img src="../../assets/Retired_badge_ig.webp" style="width:15px;height:15px;object-fit:contain;opacity:.65"></div>Retired</a>
+  <div class="sb-section">System</div>
+  <a class="sb-item active" href="management.html"><div class="sb-icon"><svg width="13" height="13" viewBox="0 0 15 15" fill="none" stroke="currentColor" stroke-width="1.3"><circle cx="7.5" cy="7.5" r="2.5"/><path d="M7.5 1v1.5M7.5 12.5V14M1 7.5h1.5M12.5 7.5H14" stroke-linecap="round"/></svg></div>Management</a>
+  <div class="sb-footer" id="sb-footer"></div>
+</aside>
+
+<!-- ACCESS DENIED -->
+<div class="main-content" id="access-denied" style="display:none;">
+  <div style="text-align:center;padding:80px 32px;">
+    <div style="font-size:48px;margin-bottom:16px;">🔒</div>
+    <div style="font-family:'Syne',sans-serif;font-size:22px;font-weight:800;margin-bottom:8px;">Staff Access Required</div>
+    <div style="color:var(--text2);margin-bottom:24px;">You need a Staff or Admin role to access this page. Login with Discord and have an admin grant you access.</div>
+    <a id="login-btn" href="#" class="btn discord-btn">Login with Discord</a>
+  </div>
+</div>
+
+<!-- MAIN PANEL -->
+<div class="main-content" id="mgmt-main" style="display:none;">
+<div class="page-wrap">
+  <div class="topbar">
+    <div>
+      <span style="font-family:'Syne',sans-serif;font-size:18px;font-weight:800;">Management</span>
+      <span id="mgmt-role-badge" style="margin-left:10px;"></span>
+    </div>
+    <div class="topbar-right">
+      <button class="btn btn-ghost btn-sm" onclick="openModal('modal-add-player')">+ Add Player</button>
+      <button class="btn btn-primary btn-sm" onclick="openModal('modal-log-fight')">
+        <svg width="13" height="13" viewBox="0 0 15 15" fill="none" stroke="white" stroke-width="1.4" stroke-linecap="round"><path d="M1.5 1.5l3.5 3.5M13.5 13.5l-3.5-3.5M1.5 13.5l3.5-3.5M13.5 1.5l-3.5 3.5"/></svg>
+        Log Fight
+      </button>
+    </div>
+  </div>
+
+  <!-- Tabs -->
+  <div class="mgmt-tabs" id="mgmt-tabs">
+    <div class="mgmt-tab active" onclick="showTab('tab-overview')" id="tbtn-overview">Overview</div>
+    <div class="mgmt-tab" onclick="showTab('tab-ht3')" id="tbtn-ht3">HT3 Players</div>
+    <div class="mgmt-tab" onclick="showTab('tab-t2')" id="tbtn-t2">T2+ Players</div>
+    <div class="mgmt-tab" onclick="showTab('tab-warns')" id="tbtn-warns">Warns <span class="sb-badge" id="warn-tab-badge" style="display:inline;position:static;margin-left:4px">0</span></div>
+    <div class="mgmt-tab" onclick="showTab('tab-audit')" id="tbtn-audit">Audit Log</div>
+    <div class="mgmt-tab" id="tbtn-staff" onclick="showTab('tab-staff')" style="display:none">Staff Access</div>
+  </div>
+
+  <!-- ══ OVERVIEW TAB ══ -->
+  <div id="tab-overview">
+    <div class="grid-4" style="margin-bottom:18px;">
+      <div class="stat-card"><div class="stat-accent" style="background:var(--blue)"></div><div class="stat-label">Total Players</div><div class="stat-val c-blue" id="o-total">—</div></div>
+      <div class="stat-card"><div class="stat-accent" style="background:var(--green)"></div><div class="stat-label">Fights Logged</div><div class="stat-val c-green" id="o-fights">—</div></div>
+      <div class="stat-card"><div class="stat-accent" style="background:var(--amber)"></div><div class="stat-label">Active Warns</div><div class="stat-val c-amber" id="o-warns">—</div></div>
+      <div class="stat-card"><div class="stat-accent" style="background:var(--red)"></div><div class="stat-label">Near Demotion</div><div class="stat-val c-red" id="o-demotion">—</div><div class="stat-foot">2–3 warns</div></div>
+    </div>
+    <div class="grid-2">
+      <div class="card">
+        <div class="card-hdr"><div class="card-title">Log a Fight</div><button class="btn btn-primary btn-sm" onclick="openModal('modal-log-fight')">⚔ Log Fight</button></div>
+        <div style="color:var(--text2);font-size:13px;line-height:1.6;">
+          Log any fight — HT3 test, T2 defense, or T2 same-tier match. The system automatically calculates warn changes, defense counts, and HT3 points.
+        </div>
+        <div style="margin-top:14px;display:flex;gap:8px;flex-wrap:wrap;">
+          <button class="btn btn-ghost btn-sm" onclick="openFightModal('ht3')">+ HT3 Fight</button>
+          <button class="btn btn-ghost btn-sm" onclick="openFightModal('standard')">+ T2 Fight</button>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-hdr"><div class="card-title">Recent Audit Log</div><button class="btn btn-ghost btn-xs" onclick="showTab('tab-audit')">View all</button></div>
+        <div id="o-recent-audit"><div class="empty" style="padding:16px 0">Loading...</div></div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-hdr"><div class="card-title">Players at Risk</div><span class="badge b-red" id="o-risk-count">0</span></div>
+      <div id="o-at-risk"><div class="empty" style="padding:16px 0">No warnings</div></div>
+    </div>
+  </div>
+
+  <!-- ══ HT3 PLAYERS TAB ══ -->
+  <div id="tab-ht3" style="display:none;">
+    <div class="card-hdr" style="margin-bottom:14px;">
+      <div style="display:flex;gap:8px;flex-wrap:wrap;">
+        <input class="search-input" id="ht3-search" placeholder="Search IGN..." oninput="renderHT3()" style="width:200px;">
+        <select class="form-select" style="width:160px;" id="ht3-type-filter" onchange="renderHT3()">
+          <option value="">All types</option>
+          <option value="voluntary">Voluntary</option>
+          <option value="non-voluntary">Non-Voluntary</option>
+        </select>
+      </div>
+      <div style="display:flex;gap:8px;">
+        <button class="btn btn-ghost btn-sm" onclick="openModal('modal-add-player')">+ Add HT3</button>
+        <button class="btn btn-primary btn-sm" onclick="openFightModal('ht3')">⚔ Log HT3 Fight</button>
+      </div>
+    </div>
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr>
+          <th>Player</th><th>Discord ID</th><th>Type</th><th>Points</th><th>W / L</th><th>Fights</th><th></th>
+        </tr></thead>
+        <tbody id="ht3-tbody"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ══ T2+ PLAYERS TAB ══ -->
+  <div id="tab-t2" style="display:none;">
+    <div class="card-hdr" style="margin-bottom:14px;">
+      <div style="display:flex;gap:8px;flex-wrap:wrap;">
+        <input class="search-input" id="t2-search" placeholder="Search IGN..." oninput="renderT2()" style="width:200px;">
+        <select class="form-select" style="width:140px;" id="t2-tier-filter" onchange="renderT2()">
+          <option value="">All tiers</option>
+          <option value="LT2">LT2</option><option value="HT2">HT2</option>
+          <option value="LT1">LT1</option><option value="HT1">HT1</option>
+        </select>
+      </div>
+      <div style="display:flex;gap:8px;">
+        <button class="btn btn-ghost btn-sm" onclick="openModal('modal-add-player')">+ Add Player</button>
+        <button class="btn btn-primary btn-sm" onclick="openFightModal('standard')">⚔ Log T2 Fight</button>
+      </div>
+    </div>
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr>
+          <th>Player</th><th>Tier</th><th>Warns</th><th>Defenses</th><th>Days Held</th><th>Peak</th><th>W/L</th><th></th>
+        </tr></thead>
+        <tbody id="t2-tbody"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ══ WARNS TAB ══ -->
+  <div id="tab-warns" style="display:none;">
+    <div class="card-hdr" style="margin-bottom:14px;">
+      <span style="font-size:13px;color:var(--text2);">T2+ warn management — 3 warns = demotion</span>
+      <div style="display:flex;gap:8px;">
+        <button class="btn btn-primary btn-sm" onclick="openFightModal('standard')">⚔ Log Fight</button>
+        <button class="btn btn-ghost btn-sm" id="btn-add-warn-admin" style="display:none" onclick="openModal('modal-add-warn')">+ Manual Warn</button>
+      </div>
+    </div>
+    <div id="warns-content"></div>
+  </div>
+
+  <!-- ══ AUDIT LOG TAB ══ -->
+  <div id="tab-audit" style="display:none;">
+    <div class="card">
+      <div class="card-hdr">
+        <div class="card-title">Audit Log</div>
+        <div style="display:flex;gap:8px;align-items:center;">
+          <input class="search-input" id="audit-search" placeholder="Filter by action, player..." oninput="filterAudit()" style="width:220px;">
+          <span class="badge b-blue" id="audit-count">0 entries</span>
+        </div>
+      </div>
+      <div id="audit-list"><div class="empty">Loading...</div></div>
+    </div>
+  </div>
+
+  <!-- ══ STAFF ACCESS TAB (admin only) ══ -->
+  <div id="tab-staff" style="display:none;">
+    <div class="card">
+      <div class="card-hdr">
+        <div class="card-title">Staff Access</div>
+        <button class="btn btn-primary btn-sm" onclick="openModal('modal-add-staff')">+ Add Member</button>
+      </div>
+      <div class="alert alert-blue">Members gain access after their next Discord login. Removing access is instant.</div>
+      <div id="staff-list"><div class="empty">Loading...</div></div>
+    </div>
+  </div>
+</div>
+</div><!-- end mgmt-main -->
+
+</div><!-- end app-shell -->
+
+<!-- ══ MODALS ══ -->
+
+<!-- Log Fight -->
+<div class="modal-bg" id="modal-log-fight">
+  <div class="modal modal-lg">
+    <div class="modal-title">Log Fight</div>
+    <div class="form-row" style="margin-bottom:6px;">
+      <div class="form-group"><label class="form-label">Fight Type</label>
+        <select class="form-select" id="lf-type" onchange="updateFightForm()">
+          <option value="standard">T2 Standard (higher vs lower / same tier)</option>
+          <option value="ht3">HT3 Test (HT3 tester vs LT3)</option>
+        </select>
+      </div>
+      <div class="form-group" id="lf-cat-wrap"><label class="form-label">Category</label>
+        <select class="form-select" id="lf-cat">
+          <option value="higher-vs-lower">Higher Tier vs Lower Tier</option>
+          <option value="same-tier">Same Tier (going for promotion)</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group"><label class="form-label" id="lf-p1-label">Player 1 IGN (Higher)</label><input class="form-input" id="lf-ign1" placeholder="Exact IGN"></div>
+      <div class="form-group"><label class="form-label">Score</label><input class="form-input" id="lf-s1" type="number" min="0" max="4" placeholder="0–4"></div>
+    </div>
+    <div class="form-row">
+      <div class="form-group"><label class="form-label" id="lf-p2-label">Player 2 IGN (Challenger)</label><input class="form-input" id="lf-ign2" placeholder="Exact IGN"></div>
+      <div class="form-group"><label class="form-label">Score</label><input class="form-input" id="lf-s2" type="number" min="0" max="4" placeholder="0–4"></div>
+    </div>
+    <div class="form-row">
+      <div class="form-group"><label class="form-label">Result</label>
+        <select class="form-select" id="lf-pass">
+          <option value="true">Challenger Passed ✓</option>
+          <option value="false">Challenger Failed ✗</option>
+        </select>
+      </div>
+      <div class="form-group" id="lf-vol-wrap" style="display:none"><label class="form-label">Voluntary HT3?</label>
+        <select class="form-select" id="lf-vol">
+          <option value="true">Yes — earns points</option>
+          <option value="false">No — Non-voluntary</option>
+        </select>
+      </div>
+    </div>
+    <div id="lf-preview" class="alert alert-blue" style="display:none;margin-top:8px;"></div>
+    <div id="lf-msg"></div>
+    <div class="modal-actions">
+      <button class="btn btn-ghost" onclick="closeModal('modal-log-fight')">Cancel</button>
+      <button class="btn btn-primary" onclick="logFight()">Log Fight</button>
+    </div>
+  </div>
+</div>
+
+<!-- Add Player -->
+<div class="modal-bg" id="modal-add-player">
+  <div class="modal">
+    <div class="modal-title">Add Player</div>
+    <div class="form-group"><label class="form-label">Minecraft IGN</label><input class="form-input" id="ap-ign" placeholder="ExactIngameName"></div>
+    <div class="form-group"><label class="form-label">Discord ID</label><input class="form-input" id="ap-discord" placeholder="123456789012345678"></div>
+    <div class="form-group"><label class="form-label">Discord Name</label><input class="form-input" id="ap-dname" placeholder="Username"></div>
+    <div class="form-group"><label class="form-label">Starting Tier</label>
+      <select class="form-select" id="ap-tier">
+        <option value="None">None</option><option value="LT3">LT3</option><option value="HT3">HT3</option>
+        <option value="LT2">LT2</option><option value="HT2">HT2</option>
+        <option value="LT1">LT1</option><option value="HT1">HT1</option>
+      </select>
+    </div>
+    <div id="ap-msg"></div>
+    <div class="modal-actions">
+      <button class="btn btn-ghost" onclick="closeModal('modal-add-player')">Cancel</button>
+      <button class="btn btn-primary" onclick="addPlayer()">Add Player</button>
+    </div>
+  </div>
+</div>
+
+<!-- Add Staff (admin only) -->
+<div class="modal-bg" id="modal-add-staff">
+  <div class="modal">
+    <div class="modal-title">Add Staff Member</div>
+    <div class="alert alert-blue">They get access after their next Discord login.</div>
+    <div class="form-group"><label class="form-label">Discord ID</label><input class="form-input" id="as-id" placeholder="18-digit Discord ID"></div>
+    <div class="form-group"><label class="form-label">Display Name</label><input class="form-input" id="as-name" placeholder="Discord username"></div>
+    <div class="form-group"><label class="form-label">Role</label>
+      <select class="form-select" id="as-role">
+        <option value="staff">Staff — add players + log fights</option>
+        <option value="admin">Admin — full access</option>
+      </select>
+    </div>
+    <div id="as-msg"></div>
+    <div class="modal-actions">
+      <button class="btn btn-ghost" onclick="closeModal('modal-add-staff')">Cancel</button>
+      <button class="btn btn-primary" onclick="addStaff()">Grant Access</button>
+    </div>
+  </div>
+</div>
+
+<!-- Edit Player (admin only) -->
+<div class="modal-bg" id="modal-edit-player">
+  <div class="modal">
+    <div class="modal-title" id="ep-title">Edit Player</div>
+    <input type="hidden" id="ep-id">
+    <div class="form-group"><label class="form-label">Tier</label>
+      <select class="form-select" id="ep-tier">
+        <option>None</option><option>LT3</option><option>HT3</option>
+        <option>LT2</option><option>HT2</option><option>LT1</option><option>HT1</option><option>Retired</option>
+      </select>
+    </div>
+    <div class="form-row">
+      <div class="form-group"><label class="form-label">Warns (0–3)</label><input class="form-input" id="ep-warns" type="number" min="0" max="3"></div>
+      <div class="form-group"><label class="form-label">HT3 Points</label><input class="form-input" id="ep-points" type="number" min="0"></div>
+    </div>
+    <div class="form-group"><label class="form-label">Reason</label><input class="form-input" id="ep-reason" placeholder="Reason for change..."></div>
+    <div class="form-group" style="display:flex;align-items:center;gap:10px;margin-top:4px;">
+      <input type="checkbox" id="ep-paused" style="width:15px;height:15px;cursor:pointer;">
+      <label for="ep-paused" style="font-size:13px;cursor:pointer;color:var(--text2)">Cooldown paused (LOA)</label>
+    </div>
+    <div id="ep-msg"></div>
+    <div class="modal-actions">
+      <button class="btn btn-danger btn-sm" id="ep-delete-btn" style="display:none" onclick="deletePlayer()">Delete</button>
+      <button class="btn btn-ghost" onclick="closeModal('modal-edit-player')">Cancel</button>
+      <button class="btn btn-primary" onclick="savePlayer()">Save</button>
+    </div>
+  </div>
+</div>
+
+<!-- Manual Warn (admin only) -->
+<div class="modal-bg" id="modal-add-warn">
+  <div class="modal">
+    <div class="modal-title">Manual Warn Adjustment</div>
+    <div class="form-group"><label class="form-label">Player</label>
+      <select class="form-select" id="aw-player"></select>
+    </div>
+    <div class="form-group"><label class="form-label">Action</label>
+      <select class="form-select" id="aw-type">
+        <option value="add">Add 1 warn</option>
+        <option value="remove">Remove 1 warn</option>
+        <option value="dodge">Dodging (+3 warns)</option>
+        <option value="clear">Clear all warns</option>
+      </select>
+    </div>
+    <div class="form-group"><label class="form-label">Reason</label><input class="form-input" id="aw-reason" placeholder="Reason..."></div>
+    <div id="aw-msg"></div>
+    <div class="modal-actions">
+      <button class="btn btn-ghost" onclick="closeModal('modal-add-warn')">Cancel</button>
+      <button class="btn btn-danger" onclick="applyWarn()">Apply</button>
+    </div>
+  </div>
+</div>
+
+<script src="../js/config.js"></script>
+<script>
+if (localStorage.getItem('pvp-dark') === '1') document.documentElement.classList.add('dark');
+handleAuthCallback();
+
+var allPlayers = [];
+var auditEntries = [];
+var staffList = [];
+
+function renderSidebarFooter() {
+  var user = Auth.getUser();
+  var footer = document.getElementById('sb-footer');
+  if (user) {
+    footer.innerHTML = '<div class="sb-user"><img src="' + avatarUrl(user.discordId, user.avatar) + '" alt="" onerror="this.src=\'https://cdn.discordapp.com/embed/avatars/0.png\'"><div class="sb-user-info"><div class="sb-user-name">' + user.discordName + '</div><div class="sb-user-role ' + user.role + '">' + user.role + '</div></div></div><button class="sb-logout" onclick="Auth.clear();location.reload()">Logout</button><button class="theme-tog" onclick="toggleTheme()"><span id="theme-lbl">Dark mode</span><div class="tog-track" id="tog"><div class="tog-thumb"></div></div></button>';
+  } else {
+    footer.innerHTML = '<a href="' + CONFIG.API_BASE + '/auth/discord" class="sb-login">Login with Discord</a><button class="theme-tog" style="margin-top:8px" onclick="toggleTheme()"><span id="theme-lbl">Dark mode</span><div class="tog-track" id="tog"><div class="tog-thumb"></div></div></button>';
+  }
+  if (localStorage.getItem('pvp-dark') === '1') {
+    var tog = document.getElementById('tog'); if (tog) tog.classList.add('on');
+    var lbl = document.getElementById('theme-lbl'); if (lbl) lbl.textContent = 'Light mode';
+  }
+}
+
+function toggleTheme() {
+  var d = document.documentElement.classList.toggle('dark');
+  localStorage.setItem('pvp-dark', d ? '1' : '0');
+  var tog = document.getElementById('tog'); if (tog) tog.classList.toggle('on', d);
+  var lbl = document.getElementById('theme-lbl'); if (lbl) lbl.textContent = d ? 'Light mode' : 'Dark mode';
+}
+
+function init() {
+  var user = Auth.getUser();
+  renderSidebarFooter();
+
+  if (!Auth.isStaff()) {
+    document.getElementById('access-denied').style.display = '';
+    document.getElementById('mgmt-main').style.display = 'none';
+    document.getElementById('login-btn').href = CONFIG.API_BASE + '/auth/discord';
+    return;
+  }
+
+  document.getElementById('access-denied').style.display = 'none';
+  document.getElementById('mgmt-main').style.display = '';
+
+  if (user) {
+    var roleEl = document.getElementById('mgmt-role-badge');
+    roleEl.innerHTML = '<span class="role-badge ' + user.role + '">' + user.role + '</span> <span style="font-size:12px;color:var(--text2);">' + user.discordName + '</span>';
+  }
+
+  if (Auth.isAdmin()) {
+    document.getElementById('tbtn-staff').style.display = '';
+    document.getElementById('ep-delete-btn').style.display = '';
+    document.getElementById('btn-add-warn-admin').style.display = '';
+  }
+
+  loadAll();
+}
+
+// ══ TABS ══
+var TABS = ['overview','ht3','t2','warns','audit','staff'];
+function showTab(id) {
+  TABS.forEach(function(t) {
+    var el = document.getElementById('tab-' + t);
+    var btn = document.getElementById('tbtn-' + t);
+    if (el) el.style.display = (id === 'tab-' + t) ? '' : 'none';
+    if (btn) btn.classList.toggle('active', id === 'tab-' + t);
+  });
+  if (id === 'tab-audit') renderAudit();
+  if (id === 'tab-ht3') renderHT3();
+  if (id === 'tab-t2') renderT2();
+  if (id === 'tab-warns') renderWarns();
+  if (id === 'tab-staff') loadStaff();
+}
+
+// ══ MODALS ══
+function openModal(id) { document.getElementById(id).classList.add('open'); if (id === 'modal-add-warn') populateWarnSelect(); }
+function closeModal(id) { document.getElementById(id).classList.remove('open'); }
+document.querySelectorAll('.modal-bg').forEach(function(m) { m.addEventListener('click', function(e) { if (e.target === m) m.classList.remove('open'); }); });
+
+function showMsg(id, text, type) {
+  type = type || 'blue';
+  var el = document.getElementById(id);
+  if (el) el.innerHTML = '<div class="alert alert-' + type + '" style="margin-top:8px">' + text + '</div>';
+}
+
+function openFightModal(type) {
+  openModal('modal-log-fight');
+  document.getElementById('lf-type').value = type;
+  updateFightForm();
+}
+
+function updateFightForm() {
+  var type = document.getElementById('lf-type').value;
+  var isHT3 = type === 'ht3';
+  document.getElementById('lf-cat-wrap').style.display = isHT3 ? 'none' : '';
+  document.getElementById('lf-vol-wrap').style.display = isHT3 ? '' : 'none';
+  document.getElementById('lf-p1-label').textContent = isHT3 ? 'HT3 Tester IGN' : 'Higher Tier Player IGN';
+  document.getElementById('lf-p2-label').textContent = isHT3 ? 'LT3 Player IGN' : 'Challenger IGN';
+  document.getElementById('lf-pass').options[0].text = isHT3 ? 'LT3 Passed ✓' : 'Challenger Passed ✓';
+  document.getElementById('lf-pass').options[1].text = isHT3 ? 'LT3 Failed ✗' : 'Challenger Failed ✗';
+}
+
+// ══ LOAD ALL DATA ══
+async function loadAll() {
+  try {
+    var [stats, lb, audit] = await Promise.all([
+      api('/api/public/stats'),
+      api('/api/public/leaderboard?sort=winrate&limit=100'),
+      api('/auth/audit')
+    ]);
+    allPlayers = lb.players || [];
+    auditEntries = audit.entries || [];
+
+    document.getElementById('o-total').textContent = stats.totalPlayers || 0;
+    document.getElementById('o-fights').textContent = stats.totalFights || 0;
+
+    var warns = allPlayers.reduce(function(s, p) { return s + (p.warns || 0); }, 0);
+    var demotion = allPlayers.filter(function(p) { return (p.warns || 0) >= 2; }).length;
+    document.getElementById('o-warns').textContent = warns;
+    document.getElementById('o-demotion').textContent = demotion;
+
+    var warnBadge = document.getElementById('warn-tab-badge');
+    if (warnBadge) { warnBadge.textContent = demotion; warnBadge.style.display = demotion > 0 ? 'inline' : 'none'; }
+
+    renderOverview();
+    renderWarns();
+    renderHT3();
+    renderT2();
+  } catch(e) { console.error(e); }
+}
+
+function renderOverview() {
+  // Recent audit
+  var auditEl = document.getElementById('o-recent-audit');
+  var recent = auditEntries.slice(0, 6);
+  auditEl.innerHTML = recent.length ? recent.map(function(e) {
+    return '<div style="display:flex;align-items:flex-start;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);font-size:12px">'
+      + '<div style="width:6px;height:6px;border-radius:50%;background:var(--blue);margin-top:4px;flex-shrink:0"></div>'
+      + '<div style="flex:1"><span style="font-weight:700">' + e.action + '</span>'
+      + (e.target_ign ? '<span style="color:var(--text2)"> → ' + e.target_ign + '</span>' : '')
+      + (e.actor_ign ? '<span style="color:var(--text3)"> by ' + e.actor_ign + '</span>' : '')
+      + '</div>'
+      + '<span class="mono">' + timeAgo(e.created_at) + '</span></div>';
+  }).join('') : '<div class="empty" style="padding:12px 0">No activity yet</div>';
+
+  // At risk
+  var risk = allPlayers.filter(function(p) { return (p.warns || 0) >= 2; });
+  var riskEl = document.getElementById('o-at-risk');
+  document.getElementById('o-risk-count').textContent = risk.length;
+  riskEl.innerHTML = risk.length ? risk.map(function(p) {
+    return '<div style="display:flex;align-items:center;gap:10px;padding:9px 0;border-bottom:1px solid var(--border)">'
+      + '<img src="' + (p.skinUrl || 'https://mc-heads.net/avatar/steve/28') + '" style="width:28px;height:28px;border-radius:7px;image-rendering:pixelated;border:1px solid var(--border2)" onerror="this.src=\'https://mc-heads.net/avatar/steve/28\'">'
+      + '<span style="font-weight:700;flex:1">' + p.ign + '</span>'
+      + tierBadge(p.tier || 'None')
+      + '<span class="badge ' + ((p.warns||0)>=3?'b-red':(p.warns||0)>=2?'b-amber':'b-blue') + '">' + (p.warns||0) + '/3 warns</span>'
+      + (Auth.isAdmin() ? '<button class="btn btn-ghost btn-xs" onclick="openEditPlayer(\'' + (p.id||'') + '\',\'' + p.ign + '\',' + (p.warns||0) + ',' + (p.points||0) + ',\'' + (p.tier||'None') + '\',' + (!!p.cooldownPaused) + ')">Edit</button>' : '')
+      + '</div>';
+  }).join('') : '<div class="empty" style="padding:16px 0">No players at risk</div>';
+}
+
+// ══ HT3 ══
+function renderHT3() {
+  var search = (document.getElementById('ht3-search') && document.getElementById('ht3-search').value || '').toLowerCase();
+  var typeF = document.getElementById('ht3-type-filter') && document.getElementById('ht3-type-filter').value || '';
+  var ht3 = allPlayers.filter(function(p) { return p.tier === 'HT3' || p.tier === 'LT3'; });
+  var filtered = ht3.filter(function(p) {
+    return (!search || p.ign.toLowerCase().includes(search));
+  });
+  var tbody = document.getElementById('ht3-tbody');
+  if (!tbody) return;
+  tbody.innerHTML = filtered.length ? filtered.map(function(p) {
+    return '<tr onclick="location.href=\'player.html?ign=' + p.ign + '\'">'
+      + '<td><div style="display:flex;align-items:center;gap:8px"><img src="' + (p.skinUrl||'https://mc-heads.net/avatar/steve/28') + '" style="width:28px;height:28px;border-radius:7px;image-rendering:pixelated;border:1px solid var(--border2)" onerror="this.src=\'https://mc-heads.net/avatar/steve/28\'"><span style="font-weight:700">' + p.ign + '</span></div></td>'
+      + '<td class="mono">' + (p.discordId || '—') + '</td>'
+      + '<td>' + tierBadge(p.tier || 'None') + '</td>'
+      + '<td style="font-family:\'DM Mono\',monospace;font-weight:700;color:var(--blue)">' + (p.points||0) + ' pts</td>'
+      + '<td><span style="color:var(--green)">' + (p.wins||0) + 'W</span> / <span style="color:var(--red)">' + (p.losses||0) + 'L</span></td>'
+      + '<td class="mono">' + ((p.wins||0)+(p.losses||0)) + '</td>'
+      + '<td><button class="btn btn-ghost btn-xs" onclick="event.stopPropagation();openFightModal(\'ht3\');document.getElementById(\'lf-ign1\').value=\'' + p.ign + '\'">Log Fight</button></td>'
+      + '</tr>';
+  }).join('') : '<tr><td colspan="7"><div class="empty">No HT3/LT3 players found</div></td></tr>';
+}
+
+// ══ T2+ ══
+function renderT2() {
+  var search = (document.getElementById('t2-search') && document.getElementById('t2-search').value || '').toLowerCase();
+  var tierF = document.getElementById('t2-tier-filter') && document.getElementById('t2-tier-filter').value || '';
+  var t2 = allPlayers.filter(function(p) { return ['LT2','HT2','LT1','HT1'].includes(p.tier); });
+  var filtered = t2.filter(function(p) {
+    return (!search || p.ign.toLowerCase().includes(search)) && (!tierF || p.tier === tierF);
+  });
+  var tbody = document.getElementById('t2-tbody');
+  if (!tbody) return;
+  tbody.innerHTML = filtered.length ? filtered.map(function(p) {
+    var w = p.warns || 0;
+    var wc = w >= 3 ? 'b-red' : w >= 2 ? 'b-amber' : 'b-gray';
+    var ps = p.peakTier ? '<span class="badge b-gold" style="font-size:9px">&#9733;</span>' : '';
+    return '<tr onclick="location.href=\'player.html?ign=' + p.ign + '\'">'
+      + '<td><div style="display:flex;align-items:center;gap:8px"><img src="' + (p.skinUrl||'https://mc-heads.net/avatar/steve/28') + '" style="width:28px;height:28px;border-radius:7px;image-rendering:pixelated;border:1px solid var(--border2)" onerror="this.src=\'https://mc-heads.net/avatar/steve/28\'"><span style="font-weight:700">' + p.ign + '</span></div></td>'
+      + '<td>' + tierBadge(p.tier) + '</td>'
+      + '<td><div style="display:flex;align-items:center;gap:8px"><span class="badge ' + wc + '">' + w + '/3</span><div class="warn-bar" style="width:60px"><div class="warn-fill" style="width:' + Math.min(100,w/3*100) + '%;background:' + warnColor(w) + '"></div></div></div></td>'
+      + '<td><span class="badge b-blue">' + (p.defenses||0) + '/2 🛡</span></td>'
+      + '<td class="mono">' + (p.daysHeld||0) + 'd</td>'
+      + '<td>' + ps + '</td>'
+      + '<td><span style="color:var(--green)">' + (p.wins||0) + 'W</span>/<span style="color:var(--red)">' + (p.losses||0) + 'L</span></td>'
+      + '<td style="display:flex;gap:4px">'
+      + '<button class="btn btn-ghost btn-xs" onclick="event.stopPropagation();openFightModal(\'standard\');document.getElementById(\'lf-ign1\').value=\'' + p.ign + '\'">Log Fight</button>'
+      + (Auth.isAdmin() ? '<button class="btn btn-ghost btn-xs" onclick="event.stopPropagation();openEditPlayer(\'' + (p.id||'') + '\',\'' + p.ign + '\',' + w + ',' + (p.points||0) + ',\'' + p.tier + '\',' + (!!p.cooldownPaused) + ')">Edit</button>' : '')
+      + '</td></tr>';
+  }).join('') : '<tr><td colspan="8"><div class="empty">No T2+ players found</div></td></tr>';
+}
+
+// ══ WARNS ══
+function renderWarns() {
+  var el = document.getElementById('warns-content');
+  if (!el) return;
+  var t2 = allPlayers.filter(function(p) { return ['LT2','HT2','LT1','HT1'].includes(p.tier); }).sort(function(a,b) { return (b.warns||0)-(a.warns||0); });
+  if (!t2.length) { el.innerHTML = '<div class="empty">No T2+ players</div>'; return; }
+  el.innerHTML = t2.map(function(p) {
+    var w = p.warns || 0;
+    var bc = w >= 3 ? 'var(--redborder)' : w >= 2 ? 'var(--amberborder)' : 'var(--border)';
+    return '<div class="card" style="border-color:' + bc + ';margin-bottom:10px">'
+      + '<div style="display:flex;align-items:center;gap:14px;flex-wrap:wrap">'
+      + '<img src="' + (p.skinUrl||'https://mc-heads.net/avatar/steve/36') + '" style="width:36px;height:36px;border-radius:9px;image-rendering:pixelated;border:1px solid var(--border2)" onerror="this.src=\'https://mc-heads.net/avatar/steve/36\'">'
+      + '<div style="flex:1;min-width:160px">'
+      + '<div style="display:flex;align-items:center;gap:8px;margin-bottom:4px"><span style="font-weight:800;font-size:15px">' + p.ign + '</span>' + tierBadge(p.tier)
+      + (w>=3?'<span class="badge b-red">DEMOTE</span>':w>=2?'<span class="badge b-amber">At risk</span>':'')
+      + '</div>'
+      + '<div style="display:flex;align-items:center;gap:10px">'
+      + '<span style="font-size:13px">Warns: <b style="color:' + warnColor(w) + '">' + w + '/3</b></span>'
+      + '<span style="font-size:13px">Defenses: <b style="color:var(--blue)">' + (p.defenses||0) + '/2</b></span>'
+      + '<span style="font-size:13px">Days: <b>' + (p.daysHeld||0) + 'd</b></span>'
+      + '</div>'
+      + '<div class="warn-bar" style="width:160px;margin-top:6px"><div class="warn-fill" style="width:' + Math.min(100,w/3*100) + '%;background:' + warnColor(w) + '"></div></div>'
+      + '</div>'
+      + '<div style="display:flex;gap:6px;flex-wrap:wrap">'
+      + '<button class="btn btn-primary btn-sm" onclick="openFightModal(\'standard\');document.getElementById(\'lf-ign1\').value=\'' + p.ign + '\'">⚔ Log Fight</button>'
+      + '<button class="btn btn-ghost btn-sm" onclick="location.href=\'player.html?ign=' + p.ign + '\'">Profile</button>'
+      + (Auth.isAdmin() ? '<button class="btn btn-ghost btn-sm" onclick="openEditPlayer(\'' + (p.id||'') + '\',\'' + p.ign + '\',' + w + ',' + (p.points||0) + ',\'' + p.tier + '\',' + (!!p.cooldownPaused) + ')">Edit</button>' : '')
+      + '</div></div></div>';
+  }).join('');
+}
+
+// ══ AUDIT ══
+function renderAudit() {
+  var q = (document.getElementById('audit-search') && document.getElementById('audit-search').value || '').toLowerCase();
+  var filtered = auditEntries.filter(function(e) { return !q || (e.action+e.target_ign+e.actor_ign+JSON.stringify(e.new_value)).toLowerCase().includes(q); });
+  document.getElementById('audit-count').textContent = filtered.length + ' entries';
+  document.getElementById('audit-list').innerHTML = filtered.slice(0,150).map(function(e) {
+    return '<div style="display:flex;gap:12px;padding:10px 0;border-bottom:1px solid var(--border);align-items:flex-start">'
+      + '<span class="mono" style="min-width:120px;white-space:nowrap;color:var(--text3)">' + new Date(e.created_at).toLocaleString('en-GB',{day:'2-digit',month:'short',hour:'2-digit',minute:'2-digit'}) + '</span>'
+      + '<div style="width:6px;height:6px;border-radius:50%;background:var(--blue);margin-top:5px;flex-shrink:0"></div>'
+      + '<div style="flex:1"><span style="font-weight:700;font-size:12px">' + e.action + '</span>'
+      + (e.target_ign ? '<span style="color:var(--text2);font-size:12px"> → ' + e.target_ign + '</span>' : '')
+      + (e.actor_ign ? '<span style="color:var(--text3);font-size:11px"> by ' + e.actor_ign + '</span>' : '')
+      + (e.reason ? '<div style="font-size:11px;color:var(--text3);margin-top:2px">Reason: ' + e.reason + '</div>' : '')
+      + (e.new_value ? '<div style="font-size:11px;color:var(--text3);font-family:\'DM Mono\',monospace;margin-top:1px">' + JSON.stringify(e.new_value) + '</div>' : '')
+      + '</div></div>';
+  }).join('') || '<div class="empty" style="padding:24px 0">No entries</div>';
+}
+function filterAudit() { renderAudit(); }
+
+// ══ STAFF ══
+async function loadStaff() {
+  try {
+    var data = await api('/auth/users');
+    var users = data.users || [];
+    staffList = users;
+    var el = document.getElementById('staff-list');
+    el.innerHTML = users.length ? users.map(function(u) {
+      var isMe = u.discord_id === (Auth.getUser() && Auth.getUser().discordId);
+      return '<div style="display:flex;align-items:center;gap:14px;padding:12px 0;border-bottom:1px solid var(--border)">'
+        + '<img src="' + avatarUrl(u.discord_id, u.discord_avatar, 56) + '" style="width:44px;height:44px;border-radius:50%;border:2px solid var(--border2)" onerror="this.src=\'https://cdn.discordapp.com/embed/avatars/0.png\'">'
+        + '<div style="flex:1"><div style="font-weight:700;font-size:14px">' + u.discord_name + '</div>'
+        + '<div class="mono">' + u.discord_id + '</div>'
+        + '<div style="font-size:11px;color:var(--text3);margin-top:2px">Added by ' + (u.added_by||'system') + ' · Last login: ' + (u.last_login ? timeAgo(u.last_login) : 'never') + '</div></div>'
+        + '<span class="role-badge ' + u.role + '">' + u.role + '</span>'
+        + (isMe ? '<span class="badge b-gray">You</span>' : '<button class="btn btn-danger btn-xs" onclick="removeStaff(\'' + u.discord_id + '\',\'' + u.discord_name + '\')">Remove</button>')
+        + '</div>';
+    }).join('') : '<div class="empty">No staff members added yet</div>';
+  } catch(e) { document.getElementById('staff-list').innerHTML = '<div class="empty">Error loading staff</div>'; }
+}
+
+async function addStaff() {
+  var discordId = document.getElementById('as-id').value.trim();
+  var discordName = document.getElementById('as-name').value.trim();
+  var role = document.getElementById('as-role').value;
+  if (!discordId || !discordName) return showMsg('as-msg', 'Discord ID and name required.', 'red');
+  var res = await api('/auth/users', { method: 'POST', body: { discordId: discordId, discordName: discordName, role: role } });
+  if (res.error) return showMsg('as-msg', res.error, 'red');
+  showMsg('as-msg', discordName + ' added as ' + role + '!', 'green');
+  setTimeout(function() { closeModal('modal-add-staff'); loadStaff(); }, 1200);
+}
+
+async function removeStaff(discordId, name) {
+  if (!confirm('Remove ' + name + "'s access?")) return;
+  var res = await api('/auth/users/' + discordId, { method: 'DELETE' });
+  if (res.ok) loadStaff();
+}
+
+// ══ ADD PLAYER ══
+async function addPlayer() {
+  var ign = document.getElementById('ap-ign').value.trim();
+  var discordId = document.getElementById('ap-discord').value.trim();
+  var discordName = document.getElementById('ap-dname').value.trim();
+  var tier = document.getElementById('ap-tier').value;
+  if (!ign || !discordId || !discordName) return showMsg('ap-msg', 'All fields required.', 'red');
+  showMsg('ap-msg', 'Looking up Minecraft profile...', 'blue');
+  var res = await api('/api/staff/players', { method: 'POST', body: { ign: ign, discordId: discordId, discordName: discordName, tier: tier } });
+  if (res.error) return showMsg('ap-msg', res.error, 'red');
+  showMsg('ap-msg', res.ign + ' added successfully!', 'green');
+  setTimeout(function() { closeModal('modal-add-player'); loadAll(); }, 1200);
+}
+
+// ══ LOG FIGHT ══
+async function logFight() {
+  var ign1 = document.getElementById('lf-ign1').value.trim();
+  var ign2 = document.getElementById('lf-ign2').value.trim();
+  var s1 = parseInt(document.getElementById('lf-s1').value);
+  var s2 = parseInt(document.getElementById('lf-s2').value);
+  var type = document.getElementById('lf-type').value;
+  var pass = document.getElementById('lf-pass').value === 'true';
+  var category = document.getElementById('lf-cat') && document.getElementById('lf-cat').value || 'higher-vs-lower';
+  var voluntaryHT3 = document.getElementById('lf-vol') && document.getElementById('lf-vol').value === 'true' || false;
+
+  if (!ign1 || !ign2 || isNaN(s1) || isNaN(s2)) return showMsg('lf-msg', 'All fields required.', 'red');
+  if (s1 < 0 || s1 > 4 || s2 < 0 || s2 > 4) return showMsg('lf-msg', 'Scores must be 0–4.', 'red');
+
+  showMsg('lf-msg', 'Logging fight...', 'blue');
+  var res = await api('/api/staff/fights', { method: 'POST', body: { ign1: ign1, score1: s1, ign2: ign2, score2: s2, pass: pass, type: type, category: category, voluntaryHT3: voluntaryHT3 } });
+  if (res.error) return showMsg('lf-msg', res.error, 'red');
+
+  var warnInfo = '';
+  if (res.fight && res.fight.warnChanges) {
+    var wc = Object.entries(res.fight.warnChanges).map(function(kv) { return kv[0] + ': ' + (kv[1] > 0 ? '+' : '') + kv[1]; }).join(', ');
+    if (wc) warnInfo = ' · Warns: ' + wc;
+  }
+  showMsg('lf-msg', 'Fight logged! ' + ign1 + ' ' + s1 + '–' + s2 + ' ' + ign2 + warnInfo, 'green');
+  setTimeout(function() { closeModal('modal-log-fight'); loadAll(); document.getElementById('lf-ign1').value=''; document.getElementById('lf-ign2').value=''; document.getElementById('lf-s1').value=''; document.getElementById('lf-s2').value=''; }, 1500);
+}
+
+// ══ EDIT PLAYER ══
+function openEditPlayer(id, ign, warns, points, tier, paused) {
+  document.getElementById('ep-id').value = id;
+  document.getElementById('ep-title').textContent = 'Edit — ' + ign;
+  document.getElementById('ep-tier').value = tier;
+  document.getElementById('ep-warns').value = warns;
+  document.getElementById('ep-points').value = points;
+  document.getElementById('ep-paused').checked = paused;
+  document.getElementById('ep-reason').value = '';
+  document.getElementById('ep-msg').innerHTML = '';
+  openModal('modal-edit-player');
+}
+
+async function savePlayer() {
+  var id = document.getElementById('ep-id').value;
+  if (!id) return showMsg('ep-msg', 'No player ID.', 'red');
+  var tier = document.getElementById('ep-tier').value;
+  var warns = parseInt(document.getElementById('ep-warns').value);
+  var points = parseInt(document.getElementById('ep-points').value);
+  var paused = document.getElementById('ep-paused').checked;
+  var reason = document.getElementById('ep-reason').value.trim();
+
+  showMsg('ep-msg', 'Saving...', 'blue');
+  await Promise.all([
+    api('/api/staff/players/' + id + '/tier', { method: 'PATCH', body: { tier: tier, reason: reason } }),
+    api('/api/staff/players/' + id + '/warns', { method: 'PATCH', body: { warns: warns, reason: reason } }),
+    api('/api/staff/players/' + id + '/points', { method: 'PATCH', body: { points: points, reason: reason } }),
+    api('/api/staff/players/' + id + '/cooldown', { method: 'PATCH', body: { paused: paused, reason: reason } })
+  ]);
+  showMsg('ep-msg', 'Saved!', 'green');
+  setTimeout(function() { closeModal('modal-edit-player'); loadAll(); }, 1000);
+}
+
+async function deletePlayer() {
+  var id = document.getElementById('ep-id').value;
+  var ign = document.getElementById('ep-title').textContent.replace('Edit — ', '');
+  if (!confirm('Permanently delete ' + ign + '? This cannot be undone.')) return;
+  var res = await api('/api/staff/players/' + id, { method: 'DELETE' });
+  if (res.ok) { closeModal('modal-edit-player'); loadAll(); }
+  else showMsg('ep-msg', res.error || 'Error deleting.', 'red');
+}
+
+// ══ MANUAL WARN ══
+function populateWarnSelect() {
+  var t2 = allPlayers.filter(function(p) { return ['LT2','HT2','LT1','HT1'].includes(p.tier); });
+  var sel = document.getElementById('aw-player');
+  sel.innerHTML = t2.map(function(p) { return '<option value="' + p.id + '">' + p.ign + ' (' + p.tier + ') — ' + (p.warns||0) + '/3 warns</option>'; }).join('') || '<option>No T2+ players</option>';
+}
+
+async function applyWarn() {
+  var pid = document.getElementById('aw-player').value;
+  var type = document.getElementById('aw-type').value;
+  var reason = document.getElementById('aw-reason').value.trim();
+  var p = allPlayers.find(function(x) { return x.id === pid; });
+  if (!p) return showMsg('aw-msg', 'Player not found.', 'red');
+  var newWarns = p.warns || 0;
+  if (type === 'add') newWarns = Math.min(3, newWarns + 1);
+  else if (type === 'remove') newWarns = Math.max(0, newWarns - 1);
+  else if (type === 'dodge') newWarns = 3;
+  else if (type === 'clear') newWarns = 0;
+  var res = await api('/api/staff/players/' + pid + '/warns', { method: 'PATCH', body: { warns: newWarns, reason: reason } });
+  if (res.error) return showMsg('aw-msg', res.error, 'red');
+  showMsg('aw-msg', 'Warns updated: ' + res.warns + '/3', 'green');
+  setTimeout(function() { closeModal('modal-add-warn'); loadAll(); }, 1000);
+}
+
+init();
+</script>
+</body>
+</html>

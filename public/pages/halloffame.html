@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hall of Fame — PVP Tiers SMP</title>
+<link rel="stylesheet" href="../css/main.css">
+<link rel="icon" href="../../assets/SMP_Main_logo.webp">
+</head>
+<body>
+<div class="app-shell">
+<aside class="sidebar" id="sidebar">
+  <a class="sb-logo" href="../../index.html"><img src="../../assets/SMP_Main_logo.webp" alt="SMP" onerror="this.style.background='#1d3a6e'"><div><div class="sb-logo-text">PVP Tiers SMP</div><div class="sb-logo-sub">PvPTiers Network</div></div></a>
+  <div class="sb-section">Overview</div>
+  <a class="sb-item" href="../../index.html"><div class="sb-icon"><svg width="13" height="13" viewBox="0 0 15 15" fill="none" stroke="currentColor" stroke-width="1.4"><rect x="1.5" y="1.5" width="5" height="5" rx="1"/><rect x="8.5" y="1.5" width="5" height="5" rx="1"/><rect x="1.5" y="8.5" width="5" height="5" rx="1"/><rect x="8.5" y="8.5" width="5" height="5" rx="1"/></svg></div>Dashboard</a>
+  <a class="sb-item" href="stats.html"><div class="sb-icon"><svg width="13" height="13" viewBox="0 0 15 15" fill="none"><rect x="1" y="9" width="3" height="5" rx=".8" fill="currentColor" opacity=".4"/><rect x="6" y="6" width="3" height="8" rx=".8" fill="currentColor" opacity=".7"/><rect x="11" y="2" width="3" height="12" rx=".8" fill="currentColor"/></svg></div>Statistics</a>
+  <div class="sb-section">Players</div>
+  <a class="sb-item" href="players.html"><div class="sb-icon"><svg width="13" height="13" viewBox="0 0 15 15" fill="none" stroke="currentColor" stroke-width="1.3"><circle cx="5" cy="4" r="2"/><circle cx="10" cy="4" r="2"/><path d="M1 13c0-2.2 1.8-4 4-4s4 1.8 4 4" stroke-linecap="round"/><path d="M10 9.5c.3-.1.65-.2 1-.2 2 0 3.5 1.4 3.5 3.5" stroke-linecap="round"/></svg></div>All Players</a>
+  <a class="sb-item active" href="halloffame.html"><div class="sb-icon"><img src="../../assets/thropie_blue.webp" style="width:15px;height:15px;object-fit:contain;opacity:1"></div>Hall of Fame<span class="sb-badge">HT1</span></a>
+  <a class="sb-item" href="leaderboard.html"><div class="sb-icon"><svg width="13" height="13" viewBox="0 0 15 15" fill="none"><path d="M7.5 1.5l1.4 2.9 3.2.5-2.3 2.2.5 3.2-2.8-1.5-2.8 1.5.5-3.2-2.3-2.2 3.2-.5z" fill="currentColor"/></svg></div>Leaderboard</a>
+  <div class="sb-section">Tiers</div>
+  <a class="sb-item" href="ht3-players.html"><div class="sb-icon"><img src="../../assets/lt3-ht3.webp" style="width:15px;height:15px;object-fit:contain;opacity:.65"></div>HT3 Players</a>
+  <a class="sb-item" href="ht3-players.html#fights"><div class="sb-icon"><svg width="13" height="13" viewBox="0 0 15 15" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"><path d="M1.5 1.5l3.5 3.5M13.5 13.5l-3.5-3.5M1.5 13.5l3.5-3.5M13.5 1.5l-3.5 3.5"/><circle cx="7.5" cy="7.5" r="1.5" fill="currentColor" stroke="none"/></svg></div>HT3 Fights</a>
+  <a class="sb-item" href="points-shop.html"><div class="sb-icon"><img src="../../assets/Points_logo.webp" style="width:15px;height:15px;object-fit:contain;opacity:.65"></div>Points Shop</a>
+  <a class="sb-item" href="t2-players.html"><div class="sb-icon"><img src="../../assets/Lt2-ht2.webp" style="width:15px;height:15px;object-fit:contain;opacity:.65"></div>T2+ Players</a>
+  <a class="sb-item" href="t2-players.html#warns"><div class="sb-icon"><svg width="13" height="13" viewBox="0 0 15 15" fill="none" stroke="currentColor" stroke-width="1.3"><path d="M7.5 1.5L13.5 12.5H1.5L7.5 1.5Z" stroke-linejoin="round"/><path d="M7.5 6v3" stroke-linecap="round"/><circle cx="7.5" cy="10.5" r=".65" fill="currentColor" stroke="none"/></svg></div>Warns</a>
+  <a class="sb-item" href="halloffame.html#retired"><div class="sb-icon"><img src="../../assets/Retired_badge_ig.webp" style="width:15px;height:15px;object-fit:contain;opacity:.65"></div>Retired</a>
+  <div class="sb-section">System</div>
+  <a class="sb-item" id="sb-management" href="management.html" style="display:none"><div class="sb-icon"><svg width="13" height="13" viewBox="0 0 15 15" fill="none" stroke="currentColor" stroke-width="1.3"><circle cx="7.5" cy="7.5" r="2.5"/><path d="M7.5 1v1.5M7.5 12.5V14M1 7.5h1.5M12.5 7.5H14" stroke-linecap="round"/></svg></div>Management</a>
+  <div class="sb-footer" id="sb-footer"></div>
+</aside>
+
+<div class="main-content">
+<div class="page-wrap">
+  <div class="topbar">
+    <span style="font-size:13px;color:var(--text2)">Hall of Fame</span>
+    <div class="topbar-right" id="sb-auth-top"></div>
+  </div>
+
+  <!-- Hero banner -->
+  <div style="border-radius:var(--r3);overflow:hidden;position:relative;margin-bottom:28px;height:160px;border:1px solid var(--border2);">
+    <img src="../../assets/SMP_banner_SMP_logos.webp" style="width:100%;height:100%;object-fit:cover;display:block;" onerror="this.style.background='#1d3a6e'">
+    <div style="position:absolute;inset:0;background:linear-gradient(120deg,rgba(0,0,0,0.7) 0%,rgba(0,0,0,0.1) 70%)"></div>
+    <div style="position:absolute;left:24px;bottom:20px;color:#fff;">
+      <div style="font-family:'Syne',sans-serif;font-size:22px;font-weight:800;letter-spacing:-0.3px;">Hall of Fame</div>
+      <div style="font-size:13px;opacity:0.85;margin-top:3px;">The elite — HT1, Peak Tier, and honourable retirees</div>
+    </div>
+    <img src="../../assets/thropie_blue.webp" style="position:absolute;right:24px;bottom:12px;height:90px;object-fit:contain;filter:drop-shadow(0 4px 16px rgba(0,0,0,0.5));" onerror="this.style.display='none'">
+  </div>
+
+  <!-- HT1 Section -->
+  <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px;">
+    <img src="../../assets/lt1-ht1.webp" style="width:22px;height:22px;object-fit:contain;">
+    <span style="font-family:'Syne',sans-serif;font-size:16px;font-weight:800;">HT1 — Top Tier</span>
+    <span class="badge b-gold">Elite</span>
+  </div>
+  <div class="hof-grid" id="ht1-grid">
+    <div class="empty">Loading HT1 players...</div>
+  </div>
+
+  <!-- LT1 Peak Section -->
+  <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px;margin-top:8px;">
+    <img src="../../assets/lt1-ht1.webp" style="width:22px;height:22px;object-fit:contain;opacity:0.7;">
+    <span style="font-family:'Syne',sans-serif;font-size:16px;font-weight:800;">LT1 — Peak Achieved</span>
+    <span class="badge b-teal">Peak</span>
+  </div>
+  <div class="hof-grid" id="lt1-grid">
+    <div class="empty">Loading LT1 players...</div>
+  </div>
+
+  <!-- HT2 Peak Section -->
+  <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px;margin-top:8px;">
+    <img src="../../assets/Lt2-ht2.webp" style="width:22px;height:22px;object-fit:contain;opacity:0.7;">
+    <span style="font-family:'Syne',sans-serif;font-size:16px;font-weight:800;">HT2 — Peak Achieved</span>
+    <span class="badge b-blue">Peak</span>
+  </div>
+  <div class="hof-grid" id="ht2-grid">
+    <div class="empty">Loading HT2 players...</div>
+  </div>
+
+  <!-- Retired Section -->
+  <div id="retired" style="display:flex;align-items:center;gap:10px;margin-bottom:14px;margin-top:8px;">
+    <img src="../../assets/Retired_badge_ig.webp" style="width:22px;height:22px;object-fit:contain;">
+    <span style="font-family:'Syne',sans-serif;font-size:16px;font-weight:800;">Retired — Honourable Discharge</span>
+    <span class="badge b-gray" id="retired-count">—</span>
+  </div>
+  <div class="hof-grid" id="retired-grid">
+    <div class="empty">Loading retired players...</div>
+  </div>
+</div>
+</div>
+</div>
+
+<script src="../js/config.js"></script>
+<script>
+if (localStorage.getItem('pvp-dark') === '1') document.documentElement.classList.add('dark');
+handleAuthCallback();
+
+function renderSidebarFooter() {
+  var user = Auth.getUser();
+  var footer = document.getElementById('sb-footer');
+  if (user) {
+    if (Auth.isStaff()) document.getElementById('sb-management').style.display = '';
+    footer.innerHTML = '<div class="sb-user"><img src="' + avatarUrl(user.discordId, user.avatar) + '" alt="" onerror="this.src=\'https://cdn.discordapp.com/embed/avatars/0.png\'"><div class="sb-user-info"><div class="sb-user-name">' + user.discordName + '</div><div class="sb-user-role ' + user.role + '">' + user.role + '</div></div></div><button class="sb-logout" onclick="Auth.clear();location.reload()">Logout</button><button class="theme-tog" onclick="toggleTheme()"><span id="theme-lbl">Dark mode</span><div class="tog-track" id="tog"><div class="tog-thumb"></div></div></button>';
+  } else {
+    footer.innerHTML = '<a href="' + CONFIG.API_BASE + '/auth/discord" class="sb-login">Login with Discord</a><button class="theme-tog" style="margin-top:8px" onclick="toggleTheme()"><span id="theme-lbl">Dark mode</span><div class="tog-track" id="tog"><div class="tog-thumb"></div></div></button>';
+  }
+  if (localStorage.getItem('pvp-dark') === '1') {
+    var tog = document.getElementById('tog'); if (tog) tog.classList.add('on');
+    var lbl = document.getElementById('theme-lbl'); if (lbl) lbl.textContent = 'Light mode';
+  }
+}
+
+function toggleTheme() {
+  var d = document.documentElement.classList.toggle('dark');
+  localStorage.setItem('pvp-dark', d ? '1' : '0');
+  var tog = document.getElementById('tog'); if (tog) tog.classList.toggle('on', d);
+  var lbl = document.getElementById('theme-lbl'); if (lbl) lbl.textContent = d ? 'Light mode' : 'Dark mode';
+}
+
+function makeTierBannerSrc(tier) {
+  if (tier === 'HT1' || tier === 'LT1') return '../../assets/SMP_coldi_banner.webp';
+  if (tier === 'HT2' || tier === 'LT2') return '../../assets/sMP_banner_logos_2.webp';
+  return '../../assets/SMP_Second_Logo.webp';
+}
+
+function hofCard(p, isRetired) {
+  var bClass = p.tier === 'HT1' ? 'hof-card ht1' : 'hof-card';
+  var skinSrc = p.uuid ? 'https://mc-heads.net/body/' + p.uuid + '/300' : 'https://mc-heads.net/body/steve/300';
+  var bannerSrc = makeTierBannerSrc(p.tier);
+  var badgeClass = p.tier === 'HT1' ? 'b-gold' : p.tier === 'LT1' ? 'b-teal' : p.tier === 'HT2' ? 'b-blue' : 'b-gray';
+  var peakBadge = p.peakTier ? '<span class="badge b-gold" style="font-size:9px;margin-top:4px">&#9733; Peak</span>' : '';
+  var retiredBadge = isRetired ? '<span class="badge b-gray" style="font-size:9px;margin-top:4px">Retired</span>' : '';
+  var winrateVal = p.winrate ? (p.winrate * 100).toFixed(1) + '%' : '—';
+
+  return '<div class="' + bClass + '" onclick="location.href=\'player.html?ign=' + p.ign + '\'">'
+    + '<div class="hof-banner"><img src="' + bannerSrc + '" alt="" onerror="this.style.background=\'var(--bg4)\'"><div class="hof-banner-overlay"></div>'
+    + '<div class="hof-tier-badge"><span class="badge ' + badgeClass + '">' + p.tier + '</span></div>'
+    + '</div>'
+    + '<div class="hof-body">'
+    + '<img src="' + skinSrc + '" class="hof-skin" onerror="this.src=\'https://mc-heads.net/body/steve/300\'">'
+    + '<div class="hof-info">'
+    + '<div class="hof-name">' + p.ign + '</div>'
+    + '<div style="display:flex;gap:4px;flex-wrap:wrap;margin-top:4px">' + peakBadge + retiredBadge + '</div>'
+    + '<div class="hof-stats"><div><b>' + winrateVal + '</b> WR</div><div><b>' + (p.daysHeld || 0) + 'd</b> held</div><div><b>' + (p.defenses || 0) + '/2</b> def</div></div>'
+    + '</div></div></div>';
+}
+
+function emptyCard(msg) {
+  return '<div class="empty" style="grid-column:1/-1;padding:24px">' + msg + '</div>';
+}
+
+async function loadHoF() {
+  try {
+    var data = await api('/api/public/leaderboard?sort=winrate&limit=100');
+    var players = data.players || [];
+
+    var ht1 = players.filter(function(p) { return p.tier === 'HT1'; });
+    var lt1peak = players.filter(function(p) { return p.tier === 'LT1' && p.peakTier; });
+    var ht2peak = players.filter(function(p) { return p.tier === 'HT2' && p.peakTier; });
+
+    document.getElementById('ht1-grid').innerHTML = ht1.length
+      ? ht1.map(function(p) { return hofCard(p, false); }).join('')
+      : emptyCard('No HT1 players yet');
+
+    document.getElementById('lt1-grid').innerHTML = lt1peak.length
+      ? lt1peak.map(function(p) { return hofCard(p, false); }).join('')
+      : emptyCard('No LT1 peak tier players yet');
+
+    document.getElementById('ht2-grid').innerHTML = ht2peak.length
+      ? ht2peak.map(function(p) { return hofCard(p, false); }).join('')
+      : emptyCard('No HT2 peak tier players yet');
+
+    var retData = await api('/api/public/leaderboard?sort=winrate&limit=100');
+    var retired = (retData.players || []).filter(function(p) { return p.tier === 'Retired'; });
+    document.getElementById('retired-count').textContent = retired.length + ' players';
+    document.getElementById('retired-grid').innerHTML = retired.length
+      ? retired.map(function(p) { return hofCard(p, true); }).join('')
+      : emptyCard('No retired players yet');
+  } catch(e) {
+    document.getElementById('ht1-grid').innerHTML = emptyCard('Could not load players');
+  }
+}
+
+renderSidebarFooter();
+loadHoF();
+if (location.hash === '#retired') setTimeout(function() { document.getElementById('retired').scrollIntoView({ behavior: 'smooth' }); }, 400);
+</script>
+</body>
+</html>
