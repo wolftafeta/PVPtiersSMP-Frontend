@@ -5,14 +5,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>PVP Tiers SMP</title>
   <link rel="stylesheet" href="public/css/main.css">
-  <link rel="icon" href="assets/smp-logo.png">
+  <link rel="icon" href="assets/SMP Main logo.webp">
 </head>
 <body>
 
 <!-- NAV -->
 <nav class="nav">
   <a class="nav-logo" href="index.html">
-    <img src="assets/smp-logo.png" alt="SMP">
+    <img src="assets/SMP Main logo.webp" alt="SMP">
     <span>PVP Tiers SMP</span>
   </a>
   <div class="nav-links">
@@ -32,9 +32,9 @@
 
 <!-- HERO -->
 <div style="background:linear-gradient(135deg,var(--blue) 0%,#1d5fb8 100%);padding:64px 24px;text-align:center;position:relative;overflow:hidden;">
-  <div style="position:absolute;inset:0;background:url('assets/banner.webp') center/cover no-repeat;opacity:0.15;"></div>
+  <div style="position:absolute;inset:0;<img src="assets/banner.webp"> center/cover no-repeat;opacity:0.15;"></div>
   <div style="position:relative;max-width:700px;margin:0 auto;">
-    <img src="assets/smp-logo.png" style="width:72px;height:72px;border-radius:16px;margin-bottom:18px;box-shadow:0 8px 32px rgba(0,0,0,0.3);">
+    <img src="assets/SMP Main logo.webp" style="width:72px;height:72px;border-radius:16px;margin-bottom:18px;box-shadow:0 8px 32px rgba(0,0,0,0.3);">
     <h1 style="font-size:40px;font-weight:900;color:#fff;letter-spacing:-1px;margin-bottom:10px;">PVP Tiers SMP</h1>
     <p style="font-size:16px;color:rgba(255,255,255,0.8);margin-bottom:28px;line-height:1.6;">
       Competitive Minecraft PVP with a structured tier system. Prove your skill — climb the ranks from LT3 to HT1.
@@ -182,7 +182,7 @@ async function loadLeaderboard() {
   const el = document.getElementById('leaderboard-preview');
   if (!data.players?.length) { el.innerHTML = '<div class="empty"><div class="empty-text">No players yet</div></div>'; return; }
   el.innerHTML = data.players.map(p => `
-    <div style="display:flex;align-items:center;gap:14px;padding:10px 0;border-bottom:1px solid var(--border);" onclick="location.href='public/pages/player.html?ign=${p.ign}'" style="cursor:pointer">
+    <div style="display:flex;align-items:center;gap:14px;padding:10px 0;border-bottom:1px solid var(--border);cursor:pointer;" onclick="location.href='public/pages/player.html?ign=${p.ign}'">
       <span style="font-family:'DM Mono',monospace;font-size:13px;color:${p.rank===1?'var(--amber)':'var(--text3)'};font-weight:700;width:20px;">#${p.rank}</span>
       <img src="${p.skinUrl}" style="width:36px;height:36px;border-radius:8px;image-rendering:pixelated;border:1px solid var(--border2);" onerror="this.src='https://mc-heads.net/avatar/steve/36'">
       <span style="flex:1;font-weight:700;">${p.ign}</span>
