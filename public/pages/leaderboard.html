@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Leaderboard — PVP Tiers SMP</title>
+  <link rel="stylesheet" href="../css/main.css">
+</head>
+<body>
+<nav class="nav">
+  <a class="nav-logo" href="../../index.html"><img src="../../assets/smp-logo.png" alt="SMP"><span>PVP Tiers SMP</span></a>
+  <div class="nav-links">
+    <a class="nav-link" href="../../index.html">Home</a>
+    <a class="nav-link" href="players.html">Players</a>
+    <a class="nav-link active" href="leaderboard.html">Leaderboard</a>
+    <a class="nav-link" href="stats.html">Statistics</a>
+    <span id="nav-management" style="display:none"><a class="nav-link" href="management.html">Management</a></span>
+  </div>
+  <div class="nav-right">
+    <button class="theme-toggle" onclick="toggleTheme()">☀</button>
+    <div id="nav-auth"></div>
+  </div>
+</nav>
+
+<div class="container page">
+  <div class="page-header" style="display:flex;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;gap:12px;">
+    <div>
+      <div class="page-title">Leaderboard</div>
+      <div class="page-sub">Top players ranked by stat</div>
+    </div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap;">
+      <button class="btn btn-ghost btn-sm" onclick="load('winrate')" id="btn-winrate">Winrate</button>
+      <button class="btn btn-primary btn-sm" onclick="load('wins')" id="btn-wins">Wins</button>
+      <button class="btn btn-ghost btn-sm" onclick="load('points')" id="btn-points">HT3 Points</button>
+      <button class="btn btn-ghost btn-sm" onclick="load('days_held')" id="btn-days_held">Days Held</button>
+    </div>
+  </div>
+
+  <!-- Top 3 podium -->
+  <div id="podium" style="display:flex;gap:16px;justify-content:center;align-items:flex-end;margin-bottom:32px;min-height:160px;"></div>
+
+  <!-- Full table -->
+  <div class="table-wrap">
+    <table>
+      <thead><tr>
+        <th>Rank</th><th>Player</th><th>Tier</th><th id="col-header">Winrate</th><th>W / L</th>
+      </tr></thead>
+      <tbody id="lb-tbody"></tbody>
+    </table>
+  </div>
+</div>
+
+<script src="../js/config.js"></script>
+<script>
+if (localStorage.getItem('pvp-dark') === '1') document.documentElement.classList.add('dark');
+function toggleTheme() { const d = document.documentElement.classList.toggle('dark'); localStorage.setItem('pvp-dark', d ? '1' : '0'); }
+handleAuthCallback();
+
+function renderNav() {
+  const user = Auth.getUser();
+  document.getElementById('nav-auth').innerHTML = user
+    ? `<div class="nav-user"><img src="${avatarUrl(user.discordId, user.avatar)}" alt=""><span>${user.discordName}</span><span class="role-badge ${user.role}">${user.role}</span></div><button class="btn btn-ghost btn-sm" onclick="Auth.clear();location.reload()">Logout</button>`
+    : `<a href="${CONFIG.API_BASE}/auth/discord" class="btn discord-btn btn-sm">Login</a>`;
+  if (Auth.isStaff()) document.getElementById('nav-management').style.display = '';
+}
+renderNav();
+
+const SORT_LABELS = { winrate: 'Winrate', wins: 'Wins', points: 'HT3 Points', days_held: 'Days Held' };
+let currentSort = 'winrate';
+
+function formatVal(val, sort) {
+  if (sort === 'winrate') return formatWinrate(val);
+  if (sort === 'days_held') return val + 'd';
+  return val;
+}
+
+function podiumHeight(rank) { return rank === 1 ? 120 : rank === 2 ? 90 : 70; }
+function podiumColor(rank) { return rank === 1 ? 'var(--amber)' : rank === 2 ? 'var(--text3)' : 'var(--teal)'; }
+
+async function load(sort) {
+  currentSort = sort;
+  // Update button styles
+  Object.keys(SORT_LABELS).forEach(s => {
+    const b = document.getElementById(`btn-${s}`);
+    if (b) b.className = s === sort ? 'btn btn-primary btn-sm' : 'btn btn-ghost btn-sm';
+  });
+  document.getElementById('col-header').textContent = SORT_LABELS[sort];
+
+  const data = await api(`/api/public/leaderboard?sort=${sort}&limit=25`);
+  const players = data.players || [];
+
+  // Podium (top 3)
+  const podiumOrder = [players[1], players[0], players[2]].filter(Boolean);
+  const podiumRanks = [2, 1, 3];
+  document.getElementById('podium').innerHTML = podiumOrder.map((p, i) => {
+    const rank = podiumRanks[i];
+    const h = podiumHeight(rank);
+    const c = podiumColor(rank);
+    return `
+    <div style="text-align:center;cursor:pointer;flex:1;max-width:200px;" onclick="location.href='player.html?ign=${p.ign}'">
+      <img src="${p.skinUrl}" class="skin-img" style="width:52px;height:52px;margin-bottom:8px;" onerror="this.src='https://mc-heads.net/avatar/steve/52'">
+      <div style="font-weight:900;font-size:14px;">${p.ign}</div>
+      <div style="font-size:13px;color:${c};font-weight:700;">${formatVal(p.value, sort)}</div>
+      <div style="height:${h}px;background:${c};opacity:0.15;border-radius:8px 8px 0 0;margin-top:8px;display:flex;align-items:center;justify-content:center;">
+        <span style="font-size:28px;font-weight:900;color:${c};opacity:1;">${rank === 1 ? '🥇' : rank === 2 ? '🥈' : '🥉'}</span>
+      </div>
+    </div>`;
+  }).join('');
+
+  // Table
+  document.getElementById('lb-tbody').innerHTML = players.map(p => `
+    <tr onclick="location.href='player.html?ign=${p.ign}'" style="cursor:pointer;">
+      <td><span style="font-family:'DM Mono',monospace;font-weight:700;color:${p.rank===1?'var(--amber)':p.rank<=3?'var(--text2)':'var(--text3)'};">#${p.rank}</span></td>
+      <td>
+        <div style="display:flex;align-items:center;gap:10px;">
+          <img src="${p.skinUrl}" class="skin-img" style="width:32px;height:32px;" onerror="this.src='https://mc-heads.net/avatar/steve/32'">
+          <span style="font-weight:700;">${p.ign}</span>
+        </div>
+      </td>
+      <td>${tierBadge(p.tier || 'None')}</td>
+      <td><span style="font-family:'DM Mono',monospace;font-weight:700;color:var(--blue)">${formatVal(p.value, sort)}</span></td>
+      <td><span style="color:var(--green)">${p.wins || 0}W</span> <span style="color:var(--text3)">/</span> <span style="color:var(--red)">${p.losses || 0}L</span></td>
+    </tr>
+  `).join('') || '<tr><td colspan="5"><div class="empty">No players yet</div></td></tr>';
+}
+
+load('winrate');
+</script>
+</body>
+</html>
